@@ -1,9 +1,9 @@
-var topPadding = 4;
-var fullWidth = 1600;
+var margin = 5;
+var fullWidth = 1520;
 
 // add together = 1500
 var mdsViewWidth = 410;
-var flowViewSvgWidth = 1090;
+var flowViewSvgWidth = 1095;
 
 // add together = 1500 - 5
 var tableViewWidth = 675;
@@ -25,15 +25,16 @@ var eventViewHeight = 425;
 $(function() {
 	// contents
 	$("#upper-content")
-		.css("width", fullWidth);
-	$("#lower-content")
 		.css("width", fullWidth)
-		.css("padding-top", topPadding);
+		.css("margin-bottom", margin + 2);
+	$("#lower-content")
+		.css("width", fullWidth);
 
 	// upper contents
 	$("#flow-view")
 		.css("width", flowViewSvgWidth)
-		.css("height", flowSvgHeight + timelineSvgHeight + menuBarHeight + 5);
+		.css("height", flowSvgHeight + timelineSvgHeight + menuBarHeight + 5)
+		.css("margin-left", margin)
 	$("#flow-wrapper")
 		.css("width", flowViewSvgWidth)
 		.css("height", flowSvgHeight);
@@ -44,16 +45,18 @@ $(function() {
 	// lower contents
 	$("#table-view")
 		.css("width", tableViewWidth)
-		.css("height", tableViewHeight);
+		.css("height", tableViewHeight)
+		.css("margin-left", margin);
 	$("#table-wrapper")
 		.css("width", tableViewWidth)
 		.css("height", tableViewHeight - tableLegendHeight);
 	$("#event-view")
 		.css("width", eventViewWidth)
-		.css("height", eventViewHeight);
+		.css("height", eventViewHeight)
 	$("#event-summary-view")
 		.css("width", eventSummaryViewWidth)
-		.css("height", eventSummaryViewHeight);
+		.css("height", eventSummaryViewHeight)
+		.css("margin-left", margin);
 
 	// set svg
 	d3.select(".control")
