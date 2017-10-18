@@ -11,28 +11,28 @@ var Database = {
 	employeeDict: {}, // name to position
 	networkDict: {}, // name to network array
 	attributeDict: {}, // name to attribute data
-	position2Index: {
-		"venture_capital": 0,
-		"micro_vc": 1,
-		"individual": 2,
-		"corporate_venture_capital": 3,
-		"accelerator": 4,
-		"angel_group": 5,
-		"investment_bank": 6,
-		"others": 7
-	},
 	// position2Index: {
-	// 	"CEO": 0,
-	// 	"President": 1,
-	// 	"Vice President": 2,
-	// 	"Director": 3,
-	// 	"Managing Director": 4,
-	// 	"Manager": 5,
-	// 	"In House Lawyer": 6,
-	// 	"Trader": 7,
-	// 	"Employee": 8,
-	// 	"unknown": 9
+	// 	"venture_capital": 0,
+	// 	"micro_vc": 1,
+	// 	"individual": 2,
+	// 	"corporate_venture_capital": 3,
+	// 	"accelerator": 4,
+	// 	"angel_group": 5,
+	// 	"investment_bank": 6,
+	// 	"others": 7
 	// },
+	position2Index: {
+		"CEO": 0,
+		"President": 1,
+		"Vice President": 2,
+		"Director": 3,
+		"Managing Director": 4,
+		"Manager": 5,
+		"In House Lawyer": 6,
+		"Trader": 7,
+		"Employee": 8,
+		"unknown": 9
+	},
 
 	// links
 	dateToLinkDict: {},
@@ -56,8 +56,8 @@ var Database = {
 
 	// others
 	nameList: [],
-	positionColours: ["#4C0016", "#794044", "#8F605A", "#A68071", "#D2BF9F", "#E9DFB5", "#FFFFCC", "white"],
-	// positionColours: ["#4C0016", "#62202D", "#794044", "#8F605A", "#A68071", "#BC9F88", "#D2BF9F", "#E9DFB5", "#FFFFCC", "white"],
+	// positionColours: ["#4C0016", "#794044", "#8F605A", "#A68071", "#D2BF9F", "#E9DFB5", "#FFFFCC", "white"],
+	positionColours: ["#4C0016", "#62202D", "#794044", "#8F605A", "#A68071", "#BC9F88", "#D2BF9F", "#E9DFB5", "#FFFFCC", "white"],
 
 	getData: function() {
 		var self = this;

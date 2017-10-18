@@ -218,24 +218,24 @@ var EgoNetworkView = {
 			.style("font-weight", "bold")
 			.text("Legend:");
 
-		self.createLegendText("venture_capital", 330, 15, "#bcbcbc");
-		self.createLegendText("micro_vc", 403, 15, "#bcbcbc");
-		self.createLegendText("individual", 449, 15, "#bcbcbc");
-		self.createLegendText("corporate_venture_capital", 497, 15, "black");
-		self.createLegendText("accelerator", 619, 15, "black");
-		self.createLegendText("angel_group", 675, 15, "black");
-		self.createLegendText("investment_bank", 737, 15, "black");
-		self.createLegendText("others", 819, 15, "black");
-		// self.createLegendText("CEO", 330, 15, "#bcbcbc");
-		// self.createLegendText("President", 358, 15, "#bcbcbc");
-		// self.createLegendText("Vice President", 406, 15, "#bcbcbc");
-		// self.createLegendText("Director", 476, 15, "#bcbcbc");
-		// self.createLegendText("Managing Director", 517, 15, "black");
-		// self.createLegendText("Manager", 604, 15, "black");
-		// self.createLegendText("In House Lawyer", 649, 15, "black");
-		// self.createLegendText("Trader", 730, 15, "black");
-		// self.createLegendText("Employee", 765, 15, "black");
-		// self.createLegendText("unknown", 815, 15, "black");
+		// self.createLegendText("venture_capital", 330, 15, "#bcbcbc");
+		// self.createLegendText("micro_vc", 403, 15, "#bcbcbc");
+		// self.createLegendText("individual", 449, 15, "#bcbcbc");
+		// self.createLegendText("corporate_venture_capital", 497, 15, "black");
+		// self.createLegendText("accelerator", 619, 15, "black");
+		// self.createLegendText("angel_group", 675, 15, "black");
+		// self.createLegendText("investment_bank", 737, 15, "black");
+		// self.createLegendText("others", 819, 15, "black");
+		self.createLegendText("CEO", 330, 15, "#bcbcbc");
+		self.createLegendText("President", 358, 15, "#bcbcbc");
+		self.createLegendText("Vice President", 406, 15, "#bcbcbc");
+		self.createLegendText("Director", 476, 15, "#bcbcbc");
+		self.createLegendText("Managing Director", 517, 15, "black");
+		self.createLegendText("Manager", 604, 15, "black");
+		self.createLegendText("In House Lawyer", 649, 15, "black");
+		self.createLegendText("Trader", 730, 15, "black");
+		self.createLegendText("Employee", 765, 15, "black");
+		self.createLegendText("unknown", 815, 15, "black");
 
 		svg.selectAll(".legend")
 			.style("cursor", "pointer")
