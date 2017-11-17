@@ -57,7 +57,7 @@ var EventView = { // handling event editor
 			.attr("x", 0)
 			.attr("y", -15)
 			.style("font-weight", "bold")
-			.text("Event Categories");
+			.text("Event Types");
 
 		var clearButton = self.eventPanelSvg.append("g")
 			.style("cursor", "pointer")
@@ -96,7 +96,7 @@ var EventView = { // handling event editor
 			.attr("x", 0)
 			.attr("y", -self.eventEditorStrokeWidth)
 			.style("font-weight", "bold")
-			.text("Event Editor");
+			.text("Event Type Editor");
 
 		var clearButton = self.eventEditorSvg.append("g")
 			.style("cursor", "pointer")
@@ -125,7 +125,7 @@ var EventView = { // handling event editor
 
 			// restore the title
 			self.eventEditorSvg.select(".event-editor-text")
-				.text("Event Editor");
+				.text("Event Type Editor");
 		}
 
 		function onClickClearPanelButton() {

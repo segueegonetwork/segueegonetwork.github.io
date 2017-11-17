@@ -26,7 +26,7 @@ var EventViewRightClickHandler = {
 				action: function(title) {
 					EventView.removeEventEditor();
 					EventView.eventEditorSvg.select(".event-editor-text")
-						.text("Event Editor - " + title);
+						.text("Event Type Editor - " + title);
 
 					EventViewRightClickHandler.selectedAttribute = title;
 					EventViewRightClickHandler.createOptionInEventEditor();
@@ -51,19 +51,19 @@ var EventViewRightClickHandler = {
 			.style("text-anchor", "start")
 			.style("alignment-baseline", "central")
 			.style("font-size", 14)
-			.text("Discretize by:");
+			.text("Specification:");
 
 		// structual, two option buttons
 		if (self.isStructuralAttribute(self.selectedAttribute)) {
-			self.drawOptionButton("Value", 100, EventView.optionY);
-			self.drawOptionButton("Slope", 145, EventView.optionY);
+			self.drawOptionButton("Value Range", 107, EventView.optionY);
+			self.drawOptionButton("Slope Range", 220, EventView.optionY);
 		}
 
 		// attribute, four option buttons
 		else {
-			self.drawOptionButton("Appear", 100, EventView.optionY);
-			self.drawOptionButton("Value", 154, EventView.optionY);
-			self.drawOptionButton("Slope", 200, EventView.optionY);
+			self.drawOptionButton("Value Range", 107, EventView.optionY);
+			self.drawOptionButton("S", 187, EventView.optionY);
+			self.drawOptionButton("Slope Range", 220, EventView.optionY);
 		}
 	},
 	drawOptionButton: function(text, translateX, translateY) {
@@ -81,13 +81,19 @@ var EventViewRightClickHandler = {
 			.style("font-size", 12)
 			.text(text);
 		var bbox = buttonSvgText[0][0].getBBox()
-		button.insert("rect", "text")
+		var backgroundRect = button.insert("rect", "text")
 			.attr("width", bbox.width + 8)
 			.attr("height", bbox.height + 4)
 			.attr("x", bbox.x - 4)
 			.attr("y", bbox.y - 2)
 			.style("rx", 5)
 			.style("ry", 5);
+
+		if (text == "S") {
+			backgroundRect
+				.style("rx", 0)
+				.style("ry", 0);
+		}
 
 		function onClickButton() {
 			if (!d3.select(this).classed("selected")) {
@@ -96,20 +102,20 @@ var EventViewRightClickHandler = {
 				d3.selectAll(".options .button").classed("selected", false);
 				d3.select(this).classed("selected", true);
 
-				if (mode == "Value") { // handle debug rect on drag end
+				if (mode == "Value Range") { // handle debug rect on drag end
 					RangePointEventEditor.init(self.selectedAttribute);
 					RangePointEventEditor.createRangeSelector();
 					RangePointEventEditor.createLineChart();
 					RangePointEventEditor.createEventTagInEditor();
 				}
 
-				if (mode == "Slope") { // handle debug rect on drag end
+				if (mode == "Slope Range") { // handle debug rect on drag end
 					IntervalEventEditor.init(self.selectedAttribute);
 					IntervalEventEditor.createControls();
 					IntervalEventEditor.createEventTagInEditor();
 				}
 
-				if (mode == "Appear") {
+				if (mode == "S") {
 					AppearPointEventEditor.init(self.selectedAttribute);
 					AppearPointEventEditor.createEventTagInEditor();
 					EgoNetworkView.updateDebugRect();

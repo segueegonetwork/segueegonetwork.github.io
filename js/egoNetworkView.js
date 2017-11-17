@@ -358,15 +358,15 @@ var EgoNetworkView = {
 		if (EventViewRightClickHandler.selectedOption != null) {
 			var mode = EventViewRightClickHandler.selectedOption;
 
-			if (mode == "Value") {
+			if (mode == "Value Range") {
 				RangePointEventEditor.createDebugRectData();
 				EgoNetworkView.createDebugRect(RangePointEventEditor.debugEventsByName, RangePointEventEditor.debugEventColour);
 			}
-			if (mode == "Slope") {
+			if (mode == "Slope Range") {
 				IntervalEventEditor.createDebugRectData();
 	  			EgoNetworkView.createDebugRect(IntervalEventEditor.debugEventsByName, IntervalEventEditor.debugEventColour);
 			}
-			if (mode == "Appear") {
+			if (mode == "S") {
 				AppearPointEventEditor.createDebugRectData();
 				EgoNetworkView.createDebugRect(AppearPointEventEditor.debugEventsByName, AppearPointEventEditor.debugEventColour);
 			}
