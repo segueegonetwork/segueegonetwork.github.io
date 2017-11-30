@@ -495,13 +495,14 @@ var MDSView = {
 		  return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
 		}
 	},
-	highlightEgoNetwork: function(nodeClassNameList, linkClassNameList) {
+	highlightEgoNetwork: function(nodeClassNameList, linkClassNameList, egoClassName) {
 		var self = this;
 
 		// remove all other highlights
 		self.linkLayer.selectAll(".link")
 			.style("opacity", 0.05);
 		self.nodeLayer.selectAll("circle")
+			.attr("r", 5)
 			.style("opacity", 0.05);
 
 		// highlight nodes
@@ -515,6 +516,10 @@ var MDSView = {
 			self.linkLayer.select(".link" + linkClassNameList[i])
 				.style("opacity", 0.7);
 		}
+
+		// highlight ego
+		self.nodeLayer.select("circle" + egoClassName)
+			.attr("r", 10);
 	},
 	removeHighlightEgoNetwork: function() {
 		var self = this;
@@ -522,6 +527,7 @@ var MDSView = {
 		self.linkLayer.selectAll(".link")
 			.style("opacity", 0.7);
 		self.nodeLayer.selectAll("circle")
+			.attr("r", 5)
 			.style("opacity", 0.7);
 	}
 }

@@ -16,6 +16,7 @@ var NodeLinkDiagram = {
 	// for scatterplot
 	nodeClassNameList: [],
 	linkClassNameList: [],
+	egoClassName: null,
 
 	init: function() {
 		var self = this;
@@ -56,7 +57,7 @@ var NodeLinkDiagram = {
 
 		MDSView.updateLinks(date);
 		MDSView.highlightTimeline(timeIndex);
-		MDSView.highlightEgoNetwork(self.nodeClassNameList, self.linkClassNameList);
+		MDSView.highlightEgoNetwork(self.nodeClassNameList, self.linkClassNameList, self.egoClassName);
 	},
 	onMouseleaveFlow: function() {
 		var self = NodeLinkDiagram;
@@ -117,6 +118,7 @@ var NodeLinkDiagram = {
 		var ego = {};
 		var nodeClassNameList = [];
 
+		// find outer names
 		var outerNodeNames = [];
 		for (var i = 0; i < Database.egoNetworkDict[name][date].length; i++) {
 			var currentName = Database.egoNetworkDict[name][date][i];
@@ -175,6 +177,7 @@ var NodeLinkDiagram = {
 		self.nodes = nodes;
 		self.alterDict = alterDict;
 		self.ego = ego;
+		self.egoClassName = "." + name.split(".").join("-");
 		self.nodeClassNameList = nodeClassNameList;
 	},
 	computeLinkData: function(egoName, date) {
