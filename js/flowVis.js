@@ -11,12 +11,6 @@ var FlowVis = {
 	// colours
 	areaColour: "#ededed",
 
-	mostUnstableColour: "#a50026",
-	leastUnstableColour: "#abd9e9",
-
-	noEdgesColour: "white",
-    veryDenseGraphColour: "black",
-
     normalLinkColour: "#999999",
     nodeBorderColour: "#666666",
 
@@ -71,7 +65,6 @@ var FlowVis = {
 		self.secondLayer.createLinkArray();
 		self.secondLayer.createLinks(hideLinks);
 		self.secondLayer.createNodes();
-		self.secondLayer.createGradients();
 	},
 	createLabels: function() {
 		var self = this;
@@ -202,10 +195,6 @@ var FlowVis = {
             	.domain([0, maxSize])
             	.range([0, self.height]);
 
-            var densityColourScale = d3.scale.linear()
-           		.domain(Database.rangeDict["Density"])
-            	.range([self.noEdgesColour, self.veryDenseGraphColour]);
-
             for (var i = 0; i < self.attributeData.length; i++) {
             	var paddingForNodes = 0;
             	var currentNumberOfNodes = self.attributeData[i].length;
@@ -239,7 +228,6 @@ var FlowVis = {
 					node = {
 						timeStep: i,
 						normalColour: Database.positionColours[positionIndex],
-	                    densityColour: densityColourScale(self.networkData[i].density),
 						height: nodeHeight,
 						x: x,
 						y: y,
@@ -316,20 +304,13 @@ var FlowVis = {
 	        	.append("path")
 	        	.attr("class", function(d) {
 	        		var source = d[0];
-
 					return "link " + source.position.split(" ").join("-");
 				})
 	        	.attr("d", area)
 	        	.attr("name", self.name) // for restoring color
 	            .style("fill", function(d) {
-	                var source = d[0];
-	                var target = d[2];
-
-	                if (d3.select("#normal-button").classed("selected"))
-	                	return source.normalColour; // source and target are the same
-
-	               	if (d3.select("#density-button").classed("selected"))
-	               		return "url(#" + self.name + "-density-gradient-" + source.timeStep + "-" + target.timeStep + ")";
+	            	var source = d[0];
+	            	return source.normalColour;
 	            })
 	            .style("stroke", "none");
 
@@ -361,38 +342,9 @@ var FlowVis = {
 	            .attr("rx", "5")
 	            .attr("ry", "5")
 	            .style("fill", function(d) {
-	            	if (d3.select("#normal-button").classed("selected"))
-	                	return d.normalColour;
-
-	                if (d3.select("#density-button").classed("selected")) {
-	                    return d.densityColour;
-	                }
+	                return d.normalColour;
 	            })
 	            .style("stroke", "none");
-		},
-		createGradients: function() {
-			var self = FlowVis;
-
-            var densityColourScale = d3.scale.linear()
-           		.domain(Database.rangeDict["Density"])
-            	.range([self.noEdgesColour, self.veryDenseGraphColour]);
-
-            for (var i = 0; i < self.networkData.length -  1; i++) {
-	            // append density gradient
-	            gradient = self.thisFlowSVG.append("defs")
-	                .append("linearGradient")
-	                .attr("id", self.name + "-density-gradient-" + i + "-" + (i + 1))
-	                .attr("x1", "15%")
-	                .attr("x2", "85%")
-	                .attr("y1", "0%")
-	                .attr("y2", "0%");
-	            gradient.append("stop")
-	                .attr("offset", "0%")
-	                .attr("stop-color", densityColourScale(self.networkData[i].density));
-	            gradient.append("stop")
-	                .attr("offset", "100%")
-	                .attr("stop-color", densityColourScale(self.networkData[i + 1].density));
-            }
 		}
 	}
 }

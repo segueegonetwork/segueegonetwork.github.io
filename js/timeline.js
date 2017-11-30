@@ -26,9 +26,11 @@ var Timeline = {
 			.tickFormat(d3.time.format("%b %y"))
 			.ticks(numberOfTimeSteps);
 
-	  	self.svg.append("g")
+	  	var xAxisSVG = self.svg.append("g")
   			.attr("class", "x axis")
   			.attr("transform", "translate(0, 10)")
   			.call(xAxis);
+  		xAxisSVG.selectAll("text")
+  			.attr("dy", 10);
 	}
 }

@@ -98,6 +98,10 @@ div.noselection {
 	display: inline-block;
 }
 
+#timeline-flow #timeline-wrapper #timeline {
+	font-size: 9px;
+}
+
 #flow-wrapper, #table-wrapper {
 	overflow-y: scroll;
 	overflow-x: hidden;

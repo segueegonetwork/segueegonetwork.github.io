@@ -72,7 +72,7 @@ var NodeLinkDiagram = {
 			.selectAll("text")[0][timeIndex];
 
 		d3.select(targetText)
-			.style("font-size", 15)
+			.style("font-size", 13)
 			.attr("transform", "translate(0, 5)");
 	},
 	removeHighlightTimeline: function() {
