@@ -66,20 +66,20 @@ var NodeLinkDiagram = {
 		d3.select("#timeline")
 			.selectAll("text")
 			.style("font-size", null)
-			.attr("transform", null);
+			.style("font-weight", null);
 
 		var targetText = d3.select("#timeline")
 			.selectAll("text")[0][timeIndex];
 
 		d3.select(targetText)
 			.style("font-size", 13)
-			.attr("transform", "translate(0, 5)");
+			.style("font-weight", "bold");
 	},
 	removeHighlightTimeline: function() {
 		d3.select("#timeline")
 			.selectAll("text")
 			.style("font-size", null)
-			.attr("transform", null);
+			.style("font-weight", null);
 	},
 	computeNodeData: function(name, date) {
 		var self = this;

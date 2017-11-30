@@ -10,28 +10,47 @@ var Timeline = {
 			.append("g")
 			.attr("transform", "translate(" + self.margin.left + ", " + self.margin.top + ")");
 
-		// draw axis
+		var xScale = d3.scale.linear()
+			.domain([0, Database.dateStringArray.length - 1])
+			.range([0, flowViewSvgWidth - self.margin.left - self.margin.right]);
 		var parseDate = d3.time.format("%Y-%m").parse;
 		var timeFormat = d3.time.format("%b %y");
 
-		var numberOfTimeSteps = Database.numberOfTimeSteps;
-		var firstDate = Database.networkDict[Database.nameList[0]][0].date;
-		var lastDate = Database.networkDict[Database.nameList[0]][numberOfTimeSteps - 1].date;
+		// create line
+		self.svg.append("line")
+			.attr("x1", 0)
+			.attr("y1", 48)
+			.attr("x2", flowViewSvgWidth - self.margin.left - self.margin.right)
+			.attr("y2", 48)
+			.style("stroke", "#d3d3d3");
 
-		var xScale = d3.time.scale()
-			.domain([parseDate(firstDate), parseDate(lastDate)])
-			.range([0, flowViewSvgWidth - self.margin.left - self.margin.right]);
-	  	var xAxis = d3.svg.axis()
-			.scale(xScale)
-			.orient("bottom")
-			.tickFormat()
-			.ticks(numberOfTimeSteps);
+		// draw circles
+		self.svg.selectAll("cirlce")
+			.data(Database.dateStringArray)
+			.enter()
+			.append("circle")
+			.attr("cx", function(d, i) {
+				return xScale(i)
+			})
+			.attr("cy", 48)
+			.attr("r", 5)
+			.style("fill", "white")
+			.style("stroke", "#d3d3d3");
 
-	  	var xAxisSVG = self.svg.append("g")
-  			.attr("class", "x axis")
-  			.attr("transform", "translate(0, 10)")
-  			.call(xAxis);
-  		xAxisSVG.selectAll("text")
-  			.attr("dy", 10);
+		// create text
+		self.svg.selectAll(".date")
+			.data(Database.dateStringArray)
+			.enter()
+			.append("text")
+			.attr("class", "date")
+			.attr("transform", function(d, i) {
+				return "translate(" + xScale(i) + ", 33)" + " rotate(-45)";
+			})
+			.style("alignment-baseline", "middle")
+			.text(function(d) {
+				var parseDate = d3.time.format("%Y-%m").parse;
+				var formatTime = d3.time.format("%b %y");
+				return formatTime(parseDate(d)); 
+			});
 	}
 }
