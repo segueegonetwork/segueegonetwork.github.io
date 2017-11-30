@@ -513,7 +513,7 @@ var MDSView = {
 
 		// highlight links
 		for (var i = 0; i < linkClassNameList.length; i++) {
-			self.linkLayer.select(".link" + linkClassNameList[i])
+			self.linkLayer.select(linkClassNameList[i] + ".link")
 				.style("opacity", 0.7);
 		}
 

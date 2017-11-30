@@ -221,7 +221,7 @@ var NodeLinkDiagram = {
 			}
 			else {
 				var node = (sourceName == egoName) ? self.ego : self.alterDict[sourceName];
-				linkClassNameList.push("." + sourceClassName + ".circle");
+				linkClassNameList.push("circle." + sourceClassName);
 				circles.push({ node: node, frequency: linkCount[linkID] });
 			}
 			
