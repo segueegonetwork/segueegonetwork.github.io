@@ -255,7 +255,6 @@ var RangePointEventEditor = {
 		self.addEventToDatabase();
 		EventView.registerNewEvent();
 		EventView.addEventTagToEventPanel(true);
-		EventSummaryView.updateBarChart();
 		MDSView.update();
 		Table.updateEvents();
 

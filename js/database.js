@@ -80,7 +80,6 @@ var Database = {
 			Timeline.init();
 			EgoNetworkView.init();
 			EventView.init();
-			EventSummaryView.init();
 			MDSView.init();
 			NodeLinkDiagram.init();
 

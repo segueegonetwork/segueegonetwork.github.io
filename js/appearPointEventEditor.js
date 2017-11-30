@@ -80,7 +80,6 @@ var AppearPointEventEditor = {
 		self.addEventToDatabase();
 		EventView.registerNewEvent();
 		EventView.addEventTagToEventPanel(true);
-		EventSummaryView.updateBarChart();
 		MDSView.update();
 		Table.updateEvents();
 		EventView.checkIfCurrentEventAdded(); // change to added

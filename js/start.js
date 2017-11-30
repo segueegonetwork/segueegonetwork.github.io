@@ -8,7 +8,6 @@ var flowViewSvgWidth = 1095;
 // add together = 1500 - 5
 var tableViewWidth = 675;
 var eventViewWidth = 410;
-var eventSummaryViewWidth = 410;
 
 // add together = 450
 var flowSvgHeight = 365 - 5;
@@ -19,7 +18,6 @@ var mdsViewHeight = 425;
 // add together = 400
 var tableViewHeight = 425;
 var tableLegendHeight = 30;
-var eventSummaryViewHeight = 425;
 var eventViewHeight = 425;
 
 $(function() {
@@ -53,10 +51,6 @@ $(function() {
 	$("#event-view")
 		.css("width", eventViewWidth)
 		.css("height", eventViewHeight)
-	$("#event-summary-view")
-		.css("width", eventSummaryViewWidth)
-		.css("height", eventSummaryViewHeight)
-		.css("margin-left", margin);
 
 	// set svg
 	d3.select(".control")
@@ -83,10 +77,6 @@ $(function() {
 	d3.select("#scatterplot")
 		.attr("width", mdsViewWidth)
 		.attr("height", mdsViewHeight);
-
-	d3.select("#event-summary")
-		.attr("width", eventSummaryViewWidth)
-		.attr("height", eventSummaryViewHeight);
 
 	Database.getData();
 });

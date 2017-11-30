@@ -86,7 +86,7 @@ div.noselection {
 	border: 1px solid #aaaaaa;
 }
 
-#table-view, #flow-view, #event-view, #event-summary-view, #mds-view {
+#table-view, #flow-view, #event-view, #mds-view {
 	display: inline-block;
 	vertical-align: top;
 }

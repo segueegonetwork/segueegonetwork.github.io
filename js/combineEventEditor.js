@@ -142,7 +142,6 @@ var CombineEventEditor = {
 		self.addEventToDatabase();
 		EventView.registerNewEvent();
 		EventView.addEventTagToEventPanel(false);
-		EventSummaryView.updateBarChart();
 		MDSView.update();
 		Table.updateEvents();
 

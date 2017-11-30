@@ -147,7 +147,6 @@ var EventView = { // handling event editor
 			// update
 			Table.updateEvents();
 			MDSView.update();
-			EventSummaryView.updateBarChart();
 			EgoNetworkView.updateDebugRect();
 		}
 	},

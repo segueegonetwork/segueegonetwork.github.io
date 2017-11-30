@@ -115,7 +115,6 @@ var EventTag = {
 		// update
 		Table.updateEvents();
 		MDSView.update();
-		EventSummaryView.updateBarChart();
 		EgoNetworkView.updateDebugRect();
 	},
 	onDragStart: function() {
