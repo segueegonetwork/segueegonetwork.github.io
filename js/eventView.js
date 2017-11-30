@@ -82,6 +82,12 @@ var EventView = { // handling event editor
 		self.eventEditorSvg = d3.select("#event-editor")
 			.append("g")
 			.attr("transform", "translate(" + self.margin.left + ", " + (self.eventPanelHeight + self.margin.top) + ")");
+		self.eventEditorSvg.append("line")
+			.attr("x1", 0)
+			.attr("x2", self.eventEditorWidthMinusPadding)
+			.attr("y1", -35)
+			.attr("y2", -35)
+			.style("stroke", "#d3d3d3")
 		self.eventEditorSvg.append("rect")
 			.attr("id", "event-edit-highlight")
 			.attr("x", 0)

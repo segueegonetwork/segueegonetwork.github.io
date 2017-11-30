@@ -21,7 +21,7 @@ var Table = {
 		var topPadding = self.rowHeight / 2 - 6; // font size is 12
 		self.margin.bottom = topPadding * 2; // x 2 because there is no top padding
 		self.width = tableViewWidth - self.margin.left - self.margin.right;
-		self.columnWidth = [self.width / 3 - 20, self.width / 3 - 20, self.width / 3 + 40]
+		self.columnWidth = [self.width / 3 - 10, self.width / 3 - 10, self.width / 3 + 20]
 
 		d3.select("#table")
 			.attr("height", self.rowHeight * Database.nameList.length + self.margin.top + self.margin.bottom)
