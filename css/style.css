@@ -1,4 +1,8 @@
 body {
+	font-size: 0px;
+}
+
+#mds-view, #event-view, #table-view, #flow-view, #node-link-diagram {
 	font: 10px sans-serif;
 }
 
@@ -33,11 +37,6 @@ div.noselection {
 
 .dummy {
 	height: 20px;
-}
-
-.ui-menu-bar {
-	background: white;
-	height: 20px
 }
 
 .ui-menu-bar .svgButton {

@@ -17,7 +17,7 @@ var EgoNetworkView = {
 	init: function() {
 		var self = this;
 
-		self.svgWidth = rightContentWidth;
+		self.svgWidth = flowViewSvgWidth;
 		self.svgHeight = flowSvgHeight + timelineSvgHeight;
 
 		self.zoomFactor  = (self.canvasWidth - self.margin.left - self.margin.right) / (self.svgWidth - self.margin.left - self.margin.right);
