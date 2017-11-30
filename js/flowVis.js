@@ -23,7 +23,7 @@ var FlowVis = {
 	links: [],
 
 	// others
-	tickHeight: 20,
+	tickHeight: 10,
 
 	init: function(svg, width, height, name) {
 		var self = this;

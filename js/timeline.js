@@ -1,5 +1,5 @@
 var Timeline = {
-	margin: { top: 5, left: 22, bottom: 5, right: 22 },
+	margin: { top: 5, left: 25, bottom: 5, right: 25 },
 
 	svg: null,
 
@@ -19,9 +19,9 @@ var Timeline = {
 		// create line
 		self.svg.append("line")
 			.attr("x1", 0)
-			.attr("y1", 48)
+			.attr("y1", 55)
 			.attr("x2", flowViewSvgWidth - self.margin.left - self.margin.right)
-			.attr("y2", 48)
+			.attr("y2", 55)
 			.style("stroke", "#d3d3d3");
 
 		// draw circles
@@ -32,7 +32,7 @@ var Timeline = {
 			.attr("cx", function(d, i) {
 				return xScale(i)
 			})
-			.attr("cy", 48)
+			.attr("cy", 55)
 			.attr("r", 5)
 			.style("fill", "white")
 			.style("stroke", "#d3d3d3");
@@ -44,7 +44,7 @@ var Timeline = {
 			.append("text")
 			.attr("class", "date")
 			.attr("transform", function(d, i) {
-				return "translate(" + xScale(i) + ", 33)" + " rotate(-45)";
+				return "translate(" + xScale(i) + ", 40)" + " rotate(-45)";
 			})
 			.style("alignment-baseline", "middle")
 			.style("fill", "gray")

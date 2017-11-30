@@ -87,7 +87,7 @@ var EventView = { // handling event editor
 			.attr("x2", self.eventEditorWidthMinusPadding)
 			.attr("y1", -35)
 			.attr("y2", -35)
-			.style("stroke", "#d3d3d3")
+			.style("stroke", "#efefef")
 		self.eventEditorSvg.append("rect")
 			.attr("id", "event-edit-highlight")
 			.attr("x", 0)

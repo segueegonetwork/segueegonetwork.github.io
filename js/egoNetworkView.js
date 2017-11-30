@@ -1,5 +1,5 @@
 var EgoNetworkView = {
-	margin: { top: 10, left: 22, bottom: 10, right: 22 },
+	margin: { top: 10, left: 25, bottom: 10, right: 25 },
 
 	// dimension of the canvas for drawing the flows
 	canvasWidth: 3000,
