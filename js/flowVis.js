@@ -16,7 +16,7 @@ var FlowVis = {
 
     // dimension for second layer
 	gapBetweenNodes: 10,
-	nodeWidth: 30,
+	nodeWidth: 10,
 
 	// data for second layer
 	nodes: [],
