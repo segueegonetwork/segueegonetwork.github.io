@@ -43,15 +43,19 @@ var NodeLinkDiagram = {
 		var date = Database.dateStringArray[timeIndex];
 
 		self.highlightTimeline(timeIndex);
+		MDSView.updateLinks(date);
+		self.linkLayer.selectAll(".link").remove();
 		self.computeNodeData(name, date);
 		self.computeLinkData(name, date);
-		self.drawNodeLinkDiagram(d3.event.x, d3.event.y)
+		self.drawNodeLinkDiagram(d3.event.x, d3.event.y);
 	},
 	onMouseleaveFlow: function() {
 		var self = NodeLinkDiagram;
 
 		self.hideNodeLinkDiagram();
 		self.removeHighlightTimeline();
+		MDSView.removeHighlightTimeline();
+		MDSView.linkLayer.selectAll(".link").remove();
 	},
 	getCurrentTimeIndex: function(mouseX) {
 		var totalNumberOfTimePeriods = Database.numberOfTimeSteps - 1;
@@ -63,23 +67,36 @@ var NodeLinkDiagram = {
 		return Math.floor(numberOfTimePeriods); // 0 - 23
 	},
 	highlightTimeline: function(timeIndex) {
+		// restore all
 		d3.select("#timeline")
 			.selectAll("text")
 			.style("font-size", null)
 			.style("font-weight", null);
+		d3.select("#timeline")
+			.selectAll("circle")
+			.style("fill", "white");
 
+		// text
 		var targetText = d3.select("#timeline")
 			.selectAll("text")[0][timeIndex];
-
 		d3.select(targetText)
 			.style("font-size", 13)
 			.style("font-weight", "bold");
+
+		// circle
+		var targetCircle = d3.select("#timeline")
+			.selectAll("circle")[0][timeIndex];
+		d3.select(targetCircle)
+			.style("fill", "#d3d3d3");
 	},
 	removeHighlightTimeline: function() {
 		d3.select("#timeline")
 			.selectAll("text")
 			.style("font-size", null)
 			.style("font-weight", null);
+		d3.select("#timeline")
+			.selectAll("circle")
+			.style("fill", "white");
 	},
 	computeNodeData: function(name, date) {
 		var self = this;

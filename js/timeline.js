@@ -47,6 +47,7 @@ var Timeline = {
 				return "translate(" + xScale(i) + ", 33)" + " rotate(-45)";
 			})
 			.style("alignment-baseline", "middle")
+			.style("fill", "gray")
 			.text(function(d) {
 				var parseDate = d3.time.format("%Y-%m").parse;
 				var formatTime = d3.time.format("%b %y");

@@ -91,6 +91,7 @@ var MDSView = {
 
 		// create group
 		self.labelSVG = d3.select("#scatterplot").append("g")
+			.attr("class", "timeline")
 			.attr("transform", "translate(" + self.margin.left + "," + labelTranslateY + ")")
 			.style("cursor", "pointer");
 
@@ -108,6 +109,7 @@ var MDSView = {
 			.attr("y", 66)
 			.style("text-anchor", "middle")
 			.style("font-size", "12px")
+			.style("fill", "gray")
 			.text("Timeline");
 
 		// create circles
@@ -122,8 +124,8 @@ var MDSView = {
 			.attr("r", 5)
 			.style("fill", "white")
 			.style("stroke", "#d3d3d3")
-			.on("mouseover", mouseoverDateLabel)
-			.on("mouseout", mouseoutDateLabel);
+			.on("mouseover", self.mouseoverDateLabel)
+			.on("mouseout", self.mouseoutDateLabel);
 
 		// create text
 		self.labelSVG.selectAll(".date")
@@ -134,23 +136,70 @@ var MDSView = {
 			.attr("transform", function(d, i) {
 				return "translate(" + xScale(i) + ", 20)" + " rotate(-45)";
 			})
+			.style("fill", "gray")
 			.style("alignment-baseline", "middle")
 			.text(function(d) {
 				var parseDate = d3.time.format("%Y-%m").parse;
 				var formatTime = d3.time.format("%b %y");
 				return formatTime(parseDate(d)); 
 			})
-			.on("mouseover", mouseoverDateLabel)
-			.on("mouseout", mouseoutDateLabel);
+			.on("mouseover", self.mouseoverDateLabel)
+			.on("mouseout", self.mouseoutDateLabel);
 
-		function mouseoverDateLabel(d) {
-			var date = d;
-			self.updateLinks(date);
-		}
+	},
+	mouseoverDateLabel: function(d) {
+		var self = MDSView;
+		var date = d;
+		var timeIndex = 0;
 
-		function mouseoutDateLabel() {
-			self.linkLayer.selectAll(".link").remove();
-		}
+		for (var i = 0; i < Database.dateStringArray.length; i++)
+			if (d == Database.dateStringArray[i]) {
+				timeIndex = i;
+				break;
+			}
+
+		self.highlightTimeline(timeIndex);
+		NodeLinkDiagram.highlightTimeline(timeIndex);
+		self.updateLinks(date);
+	},
+	mouseoutDateLabel: function() {
+		var self = MDSView;
+
+		self.removeHighlightTimeline();
+		NodeLinkDiagram.removeHighlightTimeline();
+		self.linkLayer.selectAll(".link").remove();
+	},
+	highlightTimeline: function(timeIndex) {
+		var self = this;
+
+		// restore all
+		self.labelSVG.selectAll(".date")
+			.style("font-size", null)
+			.style("font-weight", null);
+		self.labelSVG.selectAll("circle")
+			.style("fill", "white");
+
+		// text
+		var targetText = self.labelSVG
+			.selectAll("text")[0][timeIndex];
+		d3.select(targetText)
+			.style("font-size", 13)
+			.style("font-weight", "bold");
+
+		// circle
+		var targetCircle = self.labelSVG
+			.selectAll("circle")[0][timeIndex];
+		d3.select(targetCircle)
+			.style("fill", "#d3d3d3");
+	},
+	removeHighlightTimeline: function() {
+		var self = this;
+
+		self.labelSVG.selectAll(".date")
+			.style("font-size", null)
+			.style("font-weight", null);
+		self.labelSVG.selectAll("circle")
+			.style("fill", "white");
 	},
 	restore: function() {
 		var self = this;
