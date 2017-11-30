@@ -2,7 +2,7 @@ var EventView = { // handling event editor
 	margin: { top: 30, left: 10, bottom: 10, right: 10 },
 
 	// dimension
-	eventPanelHeight: 260,
+	eventPanelHeight: 210,
 	eventEditorHeight: 165,
 	eventEditorHeightMinusPadding: null,
 	eventEditorWidthMinusPadding: null,

@@ -3,15 +3,15 @@ var full = "100%";
 
 var leftContentWidth = 600;
 var rightContentWidth = 900;
-var fullHeight = 700;
+var fullHeight = 800;
 
 // right bottom
 var tableViewWidth = 478;
 var eventViewWidth = 410;
 
-var tableViewHeight = 277;
+var tableViewHeight = 377;
 var tableLegendHeight = 30;
-var eventViewHeight = 277;
+var eventViewHeight = 377;
 
 // right top
 var flowViewSvgWidth = 898;
