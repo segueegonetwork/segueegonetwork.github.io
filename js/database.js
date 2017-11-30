@@ -279,11 +279,6 @@ var Database = {
 					return d3.ascending(self.position2Index[x.position], self.position2Index[y.position]);
 				});
 			}
-			for (var i = 0; i < attributeListByDate.length; i++) {
-				attributeListByDate[i].sort(function(x, y) {
-					return d3.descending(x.frequency, y.frequency);
-				});
-			}
 
 			attributeDict[name] = attributeListByDate;
 		}

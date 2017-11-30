@@ -140,7 +140,7 @@ select, #remove, #hide-link, #adjust-time-series {
 }
 
 #hide-link.selected, #hide-link:active, #adjust-time-series.selected, #adjust-time-series:active {
-	background-color: yellow;
+	background-color: #ffffcc;
 	border: 1px solid #cccccc;
 	color: #454545;
 }
@@ -154,7 +154,7 @@ select, #remove, #hide-link, #adjust-time-series {
 }
 
 .button.selected rect {
-	fill: yellow;
+	fill: #ffffcc;
 }
 
 #node-link-diagram {

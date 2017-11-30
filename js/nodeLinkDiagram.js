@@ -37,17 +37,18 @@ var NodeLinkDiagram = {
 	},
 	onMousemoveFlow: function() {
 		var self = NodeLinkDiagram;
-
 		var name = d3.select(this).attr("name");
 		var timeIndex = self.getCurrentTimeIndex(d3.mouse(this)[0]);
 		var date = Database.dateStringArray[timeIndex];
+		var top = event.pageY;
+		var left = event.pageX;
 
 		self.highlightTimeline(timeIndex);
 		MDSView.highlightTimeline(timeIndex);
 		MDSView.updateLinks(date);
 		self.computeNodeData(name, date);
 		self.computeLinkData(name, date);
-		self.drawNodeLinkDiagram(d3.event.x, d3.event.y);
+		self.drawNodeLinkDiagram(top, left);
 	},
 	onMouseleaveFlow: function() {
 		var self = NodeLinkDiagram;
@@ -219,23 +220,26 @@ var NodeLinkDiagram = {
 		self.circles = circles;
 		self.links = links;
 	},
-	drawNodeLinkDiagram: function(x, y) {
+	drawNodeLinkDiagram: function(top, left) {
 		var self = this;
 
-		self.moveView(x, y);
+		self.moveView(top, left);
 		self.createCircleLinks();
 		self.createLinks();
 		self.createNodes();
 		self.createLabels();
 	},
-	moveView: function(x, y) {
-		if (x - 120 < 0)
-			x = 120;
+	moveView: function(top, left) {
+		var windowWidth = $(window).width();
+		var nodeLinkDiagramWidth = $("#node-link-diagram").width();
+
+		if (left + 20 + nodeLinkDiagramWidth >  windowWidth)
+		 	left = windowWidth - nodeLinkDiagramWidth - 30;
 
 		$("#node-link-diagram")
 			.css("display", "block")
-			.css("left", x - 100)
-			.css("top", y + 50)
+			.css("left", left + 20)
+			.css("top", top + 20)
 	},
 	createCircleLinks: function() {
 		var self = this;
