@@ -162,7 +162,7 @@ var IntervalEventEditor = {
 			var name = "Time period";
 			var x = self.sliderFirstColumnWidth;
 
-			self.brush[name] = self.brushCreator.createBrush(name, x, -15 + 4, startValue, endValue); // 10 = bar height / 2
+			self.brush[name] = self.brushCreator.createBrush(name, x, -20 + 4, startValue, endValue); // 10 = bar height / 2
 
 			self.brush[name]
 				.on("brush", function() { self.brushCreator.onBrushMove(this); })
@@ -177,7 +177,7 @@ var IntervalEventEditor = {
 			var className = "Noise";
 			var x = self.sliderFirstColumnWidth;
 
-			self.brush[name] = self.brushCreator.createBrush(name, x, 15, startValue, endValue); // 10 = bar height / 2
+			self.brush[name] = self.brushCreator.createBrush(name, x, 20, startValue, endValue); // 10 = bar height / 2
 
 			self.brush[name]
 				.on("brush", function() { self.brushCreator.onBrushMove(this); })
@@ -232,14 +232,14 @@ var IntervalEventEditor = {
 			brushGroup.append("text")
 		  		.attr("class", "overall-lower-bound")
 				.attr("x", 0)
-				.attr("y", -3)
+				.attr("y", self.sliderHeight[name] + 10)
 				.style("text-anchor", "middle")
 				.style("alignment-baseline", "baseline")
 				.text(startValue);
 		  	brushGroup.append("text")
 		  		.attr("class", "overall-upper-bound")
 				.attr("x", self.sliderWidth[name])
-				.attr("y", -3)
+				.attr("y", self.sliderHeight[name] + 10)
 				.style("text-anchor", "middle")
 				.style("alignment-baseline", "baseline")
 				.text(endValue);

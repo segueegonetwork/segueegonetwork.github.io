@@ -357,7 +357,7 @@ var NodeLinkDiagram = {
 				if (!d.name)
 					return null;
 
-				var name = (d.name.length > 13) ? d.name.substring(0, 15) + "..." : d.name;
+				var name = (d.name.length > 13) ? d.name.substring(0, 13) + "..." : d.name;
 				return name; 
 			});
 

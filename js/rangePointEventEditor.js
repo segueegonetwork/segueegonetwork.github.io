@@ -47,6 +47,7 @@ var RangePointEventEditor = {
 	},
 	createRangeSelector: function() {
 		var self = this;
+		console.log("dsf")
 
 		// draw brush
 		self.xScale = d3.scale.linear()

@@ -16,7 +16,7 @@ var FlowVis = {
 
     // dimension for second layer
 	gapBetweenNodes: 10,
-	nodeWidth: 20,
+	nodeWidth: 30,
 
 	// data for second layer
 	nodes: [],
@@ -296,7 +296,7 @@ var FlowVis = {
 	        	.x(function(d) { return d.x; })
 	        	.y0(function(d) { return d.y - d.height / 2; })
 	        	.y1(function(d) { return d.y + d.height / 2; })
-	        	.interpolate('basis');
+	        	.interpolate("monotone");
 
 	        self.thisFlowSVG.selectAll(".link")
 	        	.data(areaArray)
