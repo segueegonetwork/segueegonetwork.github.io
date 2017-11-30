@@ -1,5 +1,5 @@
 var Timeline = {
-	margin: { top: 5, left: 25, bottom: 5, right: 25 },
+	margin: { top: 5, left: 22, bottom: 5, right: 22 },
 
 	svg: null,
 

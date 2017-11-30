@@ -39,6 +39,10 @@ div.noselection {
 	height: 20px;
 }
 
+.ui-menu-bar {
+	position: relative;
+}
+
 .ui-menu-bar .svgButton {
 	fill: #D3D3D3;
 }
@@ -53,9 +57,9 @@ div.noselection {
 }
 
 #timeseries-menu {
-	float: right;
-	margin-right: 25px;
-	margin-top: 3px;
+	position: absolute;
+	top: 3px;
+	right: 60px;
 }
 
 #timeseries-menu label {
