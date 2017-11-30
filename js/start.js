@@ -2,7 +2,7 @@ var margin = 8;
 var full = "100%";
 
 var leftContentWidth = 600;
-var rightContentWidth = 900;
+var rightContentWidth = 1000;
 var fullHeight = 800;
 
 // right bottom
