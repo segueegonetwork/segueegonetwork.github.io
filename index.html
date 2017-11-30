@@ -15,75 +15,81 @@
 </head>
 
 <body>
-	<div id="upper-content">
+	<div id="left-content">
 
 		<div id="mds-view" class="noselection ui-view ui-corner-all">
 			<svg id="scatterplot"></svg>
 		</div>
 
-		<div id="flow-view" class="noselection ui-view ui-corner-all">
-
-			<div class="ui-menu-bar">
-
-				<svg class="control"></svg>
-
-				<span>
-					<button id="remove" class="ui-button">
-						<span class="ui-icon-close ui-icon"></span>
-					</button>
-				</span>
-
-				<span>
-					<button id="hide-link" class="ui-button">
-						<span class="ui-icon-minus ui-icon"></span>
-					</button>
-				</span>
-				
-				<span>
-					<button id="adjust-time-series" class="ui-button">
-						<span class="ui-icon-arrow-2-n-s ui-icon"></span>
-					</button>
-				</span>
-
-				<form id="timeseries-menu">
-					<label for="timeseries-menu">Time Series:</label>
-
-					<select name="timeseries-menu">
-					</select>
-				</form>
-
-			</div>
-
-			<div id="timeline-flow">
-
-				<div id="timeline-wrapper">
-					<svg id="timeline"></svg>
-				</div>
-
-				<div id="flow-wrapper">
-					<svg id="chart"></svg>
-				</div>
-
-			</div>
-
-		</div>
-
 	</div>
 
-	<div id="lower-content">
+	<div id="right-content">
 
-		<div id="event-view" class="ui-view ui-corner-all noselection">
-			<svg id="event-editor"></svg>
+		<div id="upper-content">
+
+			<div id="flow-view" class="noselection ui-view ui-corner-all">
+
+				<div class="ui-menu-bar">
+
+					<svg class="control"></svg>
+
+					<span>
+						<button id="remove" class="ui-button">
+							<span class="ui-icon-close ui-icon"></span>
+						</button>
+					</span>
+
+					<span>
+						<button id="hide-link" class="ui-button">
+							<span class="ui-icon-minus ui-icon"></span>
+						</button>
+					</span>
+					
+					<span>
+						<button id="adjust-time-series" class="ui-button">
+							<span class="ui-icon-arrow-2-n-s ui-icon"></span>
+						</button>
+					</span>
+
+					<form id="timeseries-menu">
+						<label for="timeseries-menu">Time Series:</label>
+						<select name="timeseries-menu"></select>
+					</form>
+
+				</div>
+
+				<div id="timeline-flow">
+
+					<div id="timeline-wrapper">
+						<svg id="timeline"></svg>
+					</div>
+
+					<div id="flow-wrapper">
+						<svg id="chart"></svg>
+					</div>
+
+				</div>
+
+			</div>
+
 		</div>
 
-		<div id="table-view" class="ui-view ui-corner-all noselection">
-			<div id="table-legend-wrapper">
-				<svg id="table-legend"></svg>
+		<div id="lower-content">
+
+			<div id="event-view" class="ui-view ui-corner-all noselection">
+				<svg id="event-editor"></svg>
 			</div>
 
-			<div id="table-wrapper">
-				<svg id="table"></svg>
+			<div id="table-view" class="ui-view ui-corner-all noselection">
+				<div id="table-legend-wrapper">
+					<svg id="table-legend"></svg>
+				</div>
+
+				<div id="table-wrapper">
+					<svg id="table"></svg>
+				</div>
 			</div>
+
 		</div>
 
 	</div>

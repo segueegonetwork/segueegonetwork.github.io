@@ -12,8 +12,8 @@ var MDSView = {
 	init: function() {
 		var self = this;
 
-		self.width = mdsViewWidth - self.margin.left - self.margin.right;
-		self.height = mdsViewHeight - self.margin.top - self.margin.bottom;
+		self.width = $("#scatterplot").width() - self.margin.left - self.margin.right;
+		self.height = $("#scatterplot").height() - self.margin.top - self.margin.bottom;
 
 		d3.select("#scatterplot").append("text")
 			.attr("x", 0)
@@ -46,7 +46,7 @@ var MDSView = {
 			.attr("class", "jitter-btn")
 			.attr("x", -self.textMargin.left)
 			.attr("y", -15)
-			.attr("transform", "translate(" + mdsViewWidth + ", " + self.textMargin.top + ")")
+			.attr("transform", "translate(" + self.width + ", " + self.textMargin.top + ")")
 			.style("text-anchor", "end")
 			.text("Jitter");
 		var bbox = jitterButton.select("text").node().getBBox();
@@ -55,7 +55,7 @@ var MDSView = {
 			.attr("y", bbox.y - 1)
 			.attr("width", bbox.width + 4)
 			.attr("height", bbox.height + 2)
-			.attr("transform", "translate(" + mdsViewWidth + ", " + self.textMargin.top + ")")
+			.attr("transform", "translate(" + self.width + ", " + self.textMargin.top + ")")
 			.attr("rx", 3)
 			.attr("ry", 3)
 			.attr("fill", "#e5e5e5");
@@ -85,7 +85,7 @@ var MDSView = {
 
 		var yScale = d3.scale.linear()
 			.domain([0, Database.dateStringArray.length - 1])
-			.range([0, mdsViewHeight - 50]);
+			.range([0, self.height - 50]);
 
 		// create group
 		self.labelSVG = d3.select("#scatterplot").append("g")

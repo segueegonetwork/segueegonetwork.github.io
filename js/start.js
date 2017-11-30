@@ -1,19 +1,20 @@
 var margin = 5;
-var fullWidth = 1520;
+var full = "100%";
 
-// add together = 1500
-var mdsViewWidth = 410;
-var flowViewSvgWidth = 1095;
+var leftContentWidth = 600;
+var rightContentWidth = 900;
+var fullHeight = 700;
+
+var flowViewSvgWidth = 900;
 
 // add together = 1500 - 5
-var tableViewWidth = 410;
+var tableViewWidth = 450;
 var eventViewWidth = 410;
 
 // add together = 450
 var flowSvgHeight = 365 - 5;
 var timelineSvgHeight = 40;
 var menuBarHeight = 20;
-var mdsViewHeight = 425;
 
 // add together = 400
 var tableViewHeight = 425;
@@ -22,13 +23,22 @@ var eventViewHeight = 425;
 
 $(function() {
 	// contents
-	$("#upper-content")
-		.css("width", fullWidth)
-		.css("margin-bottom", margin + 2);
-	$("#lower-content")
-		.css("width", fullWidth);
+	$("#left-content")
+		.css("width", leftContentWidth)
+		.css("height", fullHeight);
+	$("#right-content")
+		.css("width", rightContentWidth)
+		.css("height", fullHeight);
+
+	// left content
+	$("#mds-view")
+		.css("width", full)
+		.css("height", full);
 
 	// upper contents
+	$("#right-content #upper-content")
+		.css("width", full)
+		.css("margin-bottom", margin + 2);
 	$("#flow-view")
 		.css("width", flowViewSvgWidth)
 		.css("height", flowSvgHeight + timelineSvgHeight + menuBarHeight + 5)
@@ -36,11 +46,10 @@ $(function() {
 	$("#flow-wrapper")
 		.css("width", flowViewSvgWidth)
 		.css("height", flowSvgHeight);
-	$("#mds-view")
-		.css("width", mdsViewWidth)
-		.css("height", mdsViewHeight);
 
 	// lower contents
+	$("#right-content #lower-content")
+		.css("width", full);
 	$("#table-view")
 		.css("width", tableViewWidth)
 		.css("height", tableViewHeight)
@@ -75,8 +84,8 @@ $(function() {
 		.attr("height", tableViewHeight - tableLegendHeight - 10);
 
 	d3.select("#scatterplot")
-		.attr("width", mdsViewWidth)
-		.attr("height", mdsViewHeight);
+		.attr("width", full)
+		.attr("height", full);
 
 	Database.getData();
 });
