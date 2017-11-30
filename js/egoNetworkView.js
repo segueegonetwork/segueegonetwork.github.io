@@ -43,34 +43,6 @@ var EgoNetworkView = {
 			.style("font-weight", "bold")
 			.text("Ego-Network View");
 
-		// create color encoding control
-		d3.select("#flow-view .ui-menu-bar .control")
-			.append("text")
-			.text("Link color:")
-			.attr("x", 120)
-			.attr("y", 15)
-			.style("font-weight", "bold");
-
-		d3.select("#flow-view .ui-menu-bar .control")
-			.append("text")
-			.text("Normal")
-			.attr("id", "normal-button")
-			.attr("class", "button selected")
-			.attr("x", 180)
-			.attr("y", 15)
-			.style("cursor", "pointer")
-			.on("click", onClickNormalButton);
-
-		d3.select("#flow-view .ui-menu-bar .control")
-			.append("text")
-			.text("Density")
-			.attr("id", "density-button")
-			.attr("class", "button")
-			.attr("x", 220)
-			.attr("y", 15)
-			.style("cursor", "pointer")
-			.on("click", onClickDensityButton);
-
 		$("#remove").click(function() {
 			// clear all flows
 			d3.selectAll(".flow").remove();
@@ -121,45 +93,6 @@ var EgoNetworkView = {
 			for (var i = 0; i < nameListToBeRendered.length; i++)
 				self.createFlow(nameListToBeRendered[i]);
 		});
-
-		function onClickNormalButton() {
-			if (!d3.select(this).classed("selected")) {
-				d3.select(this).classed("selected", true);
-				d3.select("#density-button").classed("selected", false);
-
-				// recolour the links
-				d3.selectAll(".link").style("fill", function(d) {
-					var source = d[0];
-					return source.normalColour;
-				});
-
-				// recolour the nodes
-				d3.selectAll(".node").style("fill", function(d) {
-					return d.normalColour;
-				});
-			}
-		}
-
-		function onClickDensityButton() {
-			if (!d3.select(this).classed("selected")) {
-				d3.select(this).classed("selected", true);
-				d3.select("#normal-button").classed("selected", false);
-
-				// recolour the links
-				d3.selectAll(".link").style("fill", function(d) {
-					var source = d[0];
-					var target = d[2];
-					var name = d3.select(d3.select(this).node().parentNode.parentNode).attr("name");
-
-					return "url(#" + name + "-density-gradient-" + source.timeStep + "-" + target.timeStep + ")";
-				});
-
-				// recolour the nodes
-				d3.selectAll(".node").style("fill", function(d) {
-					return d.densityColour;
-				});
-			}
-		}
 	},
 	initDropDownMenu: function() {
 		var self = this;
@@ -213,29 +146,29 @@ var EgoNetworkView = {
 		var svg = d3.select("#flow-view .ui-menu-bar .control");
 
 		svg.append("text")
-			.attr("x", 278)
+			.attr("x", 116)
 			.attr("y", 15)
 			.style("font-weight", "bold")
 			.text("Legend:");
 
-		// self.createLegendText("venture_capital", 330, 15, "#bcbcbc");
-		// self.createLegendText("micro_vc", 403, 15, "#bcbcbc");
-		// self.createLegendText("individual", 449, 15, "#bcbcbc");
-		// self.createLegendText("corporate_venture_capital", 497, 15, "black");
-		// self.createLegendText("accelerator", 619, 15, "black");
-		// self.createLegendText("angel_group", 675, 15, "black");
-		// self.createLegendText("investment_bank", 737, 15, "black");
-		// self.createLegendText("others", 819, 15, "black");
-		self.createLegendText("CEO", 330, 15, "#bcbcbc");
-		self.createLegendText("President", 358, 15, "#bcbcbc");
-		self.createLegendText("Vice President", 406, 15, "#bcbcbc");
-		self.createLegendText("Director", 476, 15, "#bcbcbc");
-		self.createLegendText("Managing Director", 517, 15, "black");
-		self.createLegendText("Manager", 604, 15, "black");
-		self.createLegendText("In House Lawyer", 649, 15, "black");
-		self.createLegendText("Trader", 730, 15, "black");
-		self.createLegendText("Employee", 765, 15, "black");
-		self.createLegendText("unknown", 815, 15, "black");
+		// self.createLegendText("venture_capital", 162, 15, "#bcbcbc");
+		// self.createLegendText("micro_vc", 235, 15, "#bcbcbc");
+		// self.createLegendText("individual", 281, 15, "#bcbcbc");
+		// self.createLegendText("corporate_venture_capital", 329, 15, "black");
+		// self.createLegendText("accelerator", 451, 15, "black");
+		// self.createLegendText("angel_group", 507, 15, "black");
+		// self.createLegendText("investment_bank", 569, 15, "black");
+		// self.createLegendText("others", 651, 15, "black");
+		self.createLegendText("CEO", 162, 15, "#bcbcbc");
+		self.createLegendText("President", 190, 15, "#bcbcbc");
+		self.createLegendText("Vice President", 238, 15, "#bcbcbc");
+		self.createLegendText("Director", 308, 15, "#bcbcbc");
+		self.createLegendText("Managing Director", 349, 15, "black");
+		self.createLegendText("Manager", 436, 15, "black");
+		self.createLegendText("In House Lawyer", 481, 15, "black");
+		self.createLegendText("Trader", 562, 15, "black");
+		self.createLegendText("Employee", 597, 15, "black");
+		self.createLegendText("unknown", 647, 15, "black");
 
 		svg.selectAll(".legend")
 			.style("cursor", "pointer")

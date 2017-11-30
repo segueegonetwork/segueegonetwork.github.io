@@ -16,7 +16,7 @@ var eventViewHeight = 377;
 // right top
 var flowViewSvgWidth = 898;
 var flowViewWidth = 898;
-var flowViewFlowWrapperWidth = "calc(100%)"
+var flowViewFlowWrapperWidth = "calc(100% - 1px)"
 
 var flowSvgHeight = 353;
 var timelineSvgHeight = 40;
@@ -64,7 +64,7 @@ $(function() {
 		.css("height", flowSvgHeight - 2);
 
 	d3.select("#flow-view .ui-menu-bar .control")
-		.attr("width", flowViewSvgWidth - 220)
+		.attr("width", flowViewSvgWidth - 200)
 		.attr("height", menuBarHeight);
 	d3.select("#flow-view #timeline-flow #timeline-wrapper #timeline")
 		.attr("width", flowViewSvgWidth)
