@@ -381,7 +381,7 @@ var EgoNetworkView = {
 				rectObject = {
 					x: xScale(startDateIndex),
 					y: 0,
-					width: FlowVis.nodeWidth + timeDiff * (flowWidth / (Database.numberOfTimeSteps - 1)),
+					width: FlowVis.debugRectWidth + timeDiff * (flowWidth / (Database.numberOfTimeSteps - 1)),
 					height: 20
 				}
 
@@ -412,7 +412,7 @@ var EgoNetworkView = {
 			// update
 			d3.selectAll(".flow." + className + " .tick-group .debug-rect")
 				.attr("x", function(d) {
-					return d.x - FlowVis.nodeWidth / 2;
+					return d.x - FlowVis.debugRectWidth / 2;
 				})
 				.attr("y", function(d) {
 					return d.y;
