@@ -7,6 +7,7 @@ var NodeLinkDiagram = {
 	centre: { x: null, y: null },
 	radius: 70,
 	strokeScale: null,
+	maxLabelLength: 10,
 
 	linkLayer: null,
 	nodeLayer: null,
@@ -357,7 +358,7 @@ var NodeLinkDiagram = {
 				if (!d.name)
 					return null;
 
-				var name = (d.name.length > 13) ? d.name.substring(0, 13) + "..." : d.name;
+				var name = (d.name.length > self.maxLabelLength) ? d.name.substring(0, self.maxLabelLength) + "..." : d.name;
 				return name; 
 			});
 
