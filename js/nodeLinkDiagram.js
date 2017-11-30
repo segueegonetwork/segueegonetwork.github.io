@@ -13,6 +13,10 @@ var NodeLinkDiagram = {
 	nodeLayer: null,
 	labelLayer: null,
 
+	// for scatterplot
+	nodeClassNameList: [],
+	linkClassNameList: [],
+
 	init: function() {
 		var self = this;
 
@@ -39,24 +43,29 @@ var NodeLinkDiagram = {
 	onMousemoveFlow: function() {
 		var self = NodeLinkDiagram;
 		var name = d3.select(this).attr("name");
+		var className = name.split(".").join("-");
 		var timeIndex = self.getCurrentTimeIndex(d3.mouse(this)[0]);
 		var date = Database.dateStringArray[timeIndex];
 		var top = event.pageY;
 		var left = event.pageX;
 
 		self.highlightTimeline(timeIndex);
-		MDSView.highlightTimeline(timeIndex);
-		MDSView.updateLinks(date);
 		self.computeNodeData(name, date);
 		self.computeLinkData(name, date);
 		self.drawNodeLinkDiagram(top, left);
+
+		MDSView.updateLinks(date);
+		MDSView.highlightTimeline(timeIndex);
+		MDSView.highlightEgoNetwork(self.nodeClassNameList, self.linkClassNameList);
 	},
 	onMouseleaveFlow: function() {
 		var self = NodeLinkDiagram;
 
 		self.hideNodeLinkDiagram();
 		self.removeHighlightTimeline();
+
 		MDSView.removeHighlightTimeline();
+		MDSView.removeHighlightEgoNetwork();
 		MDSView.linkLayer.selectAll(".link").remove();
 	},
 	getCurrentTimeIndex: function(mouseX) {
@@ -106,10 +115,13 @@ var NodeLinkDiagram = {
 		var nodes = [];
 		var alterDict = {};
 		var ego = {};
+		var nodeClassNameList = [];
 
 		var outerNodeNames = [];
 		for (var i = 0; i < Database.egoNetworkDict[name][date].length; i++) {
-			var currentName = Database.egoNetworkDict[name][date][i]
+			var currentName = Database.egoNetworkDict[name][date][i];
+			var nodeClassName = currentName.split(".").join("-");
+			nodeClassNameList.push("." + nodeClassName); // push ego
 
 			if (currentName != name)
 				outerNodeNames.push(currentName)
@@ -121,12 +133,11 @@ var NodeLinkDiagram = {
 			var position = Database.employeeDict[currentName];
 			var positionIndex = Database.position2Index[position];
 			var colour = Database.positionColours[positionIndex];
-			var nodeObject = {
-				name: currentName,
-				colour: colour 
-			};
+			var nodeObject = { name: currentName, colour: colour };
+			var nodeClassName = currentName.split(".").join("-");
 
 			nodes.push(nodeObject);
+			nodeClassNameList.push("." + nodeClassName); // push alter
 			alterDict[currentName] = nodeObject;
 		}
 		nodes.sort(function(x, y){ return d3.ascending(x.colour, y.colour); });
@@ -164,11 +175,13 @@ var NodeLinkDiagram = {
 		self.nodes = nodes;
 		self.alterDict = alterDict;
 		self.ego = ego;
+		self.nodeClassNameList = nodeClassNameList;
 	},
 	computeLinkData: function(egoName, date) {
 		var self = this;
 		var circles = [];
 		var links = [];
+		var linkClassNameList = [];
 		
 		// count links
 		var linkCount = {};
@@ -194,24 +207,19 @@ var NodeLinkDiagram = {
 		for (var linkID in linkCount) {
 			var sourceName = linkID.split("-")[0];
 			var targetName = linkID.split("-")[1];
+			var sourceClassName = sourceName.split(".").join("-");
+			var targetClassName = targetName.split(".").join("-");
 
 			if (sourceName != targetName) {
 				var sourceNode = (sourceName == egoName) ? self.ego : self.alterDict[sourceName];
 				var targetNode = (targetName == egoName) ? self.ego : self.alterDict[targetName];
-
-				links.push({
-					source: sourceNode,
-					target: targetNode,
-					frequency: linkCount[linkID]
-				});
+				linkClassNameList.push("." + sourceClassName + "." + targetClassName);
+				links.push({ source: sourceNode, target: targetNode, frequency: linkCount[linkID] });
 			}
 			else {
 				var node = (sourceName == egoName) ? self.ego : self.alterDict[sourceName];
-
-				circles.push({
-					node: node,
-					frequency: linkCount[linkID]
-				});
+				linkClassNameList.push("." + sourceClassName + "." + targetClassName);
+				circles.push({ node: node, frequency: linkCount[linkID] });
 			}
 			
 			if (linkCount[linkID] > max)
@@ -220,6 +228,7 @@ var NodeLinkDiagram = {
 
 		self.circles = circles;
 		self.links = links;
+		self.linkClassNameList = linkClassNameList;
 	},
 	drawNodeLinkDiagram: function(top, left) {
 		var self = this;

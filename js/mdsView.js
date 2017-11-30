@@ -419,7 +419,7 @@ var MDSView = {
 		for (linkID in links) {
 			var sourceLabel = linkID.split("-")[0];
 			var targetLabel = linkID.split("-")[1];
-			var className = sourceLabel.split(".").join("-") + "-" + targetLabel.split(".").join("-");
+			var className = sourceLabel.split(".").join("-") + " " + targetLabel.split(".").join("-");
 
 			if (sourceLabel != targetLabel) {
 				var linkObject = {
@@ -494,5 +494,34 @@ var MDSView = {
 		      dr = Math.sqrt(dx * dx + dy * dy);
 		  return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
 		}
+	},
+	highlightEgoNetwork: function(nodeClassNameList, linkClassNameList) {
+		var self = this;
+
+		// remove all other highlights
+		self.linkLayer.selectAll(".link")
+			.style("opacity", 0.05);
+		self.nodeLayer.selectAll("circle")
+			.style("opacity", 0.05);
+
+		// highlight nodes
+		for (var i = 0; i < nodeClassNameList.length; i++) {
+			self.nodeLayer.select("circle" + nodeClassNameList[i])
+				.style("opacity", 0.7);
+		}
+
+		// highlight links
+		for (var i = 0; i < linkClassNameList.length; i++) {
+			self.linkLayer.select(".link" + linkClassNameList[i])
+				.style("opacity", 0.7);
+		}
+	},
+	removeHighlightEgoNetwork: function() {
+		var self = this;
+
+		self.linkLayer.selectAll(".link")
+			.style("opacity", 0.7);
+		self.nodeLayer.selectAll("circle")
+			.style("opacity", 0.7);
 	}
 }
