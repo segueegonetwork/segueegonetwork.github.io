@@ -418,6 +418,7 @@ var MDSView = {
 		for (linkID in links) {
 			var sourceLabel = linkID.split("-")[0];
 			var targetLabel = linkID.split("-")[1];
+			var className = sourceLabel.split(".").join("-") + "-" + targetLabel.split(".").join("-");
 
 			if (sourceLabel != targetLabel) {
 				var linkObject = {
@@ -429,7 +430,8 @@ var MDSView = {
 
 				linkData.push({
 					path: pathData,
-					weight: weight
+					weight: weight,
+					className: className
 				});
 			}
 
@@ -440,7 +442,8 @@ var MDSView = {
 				circleData.push({
 					x: labelCoord[sourceLabel].x,
 					y: labelCoord[sourceLabel].y,
-					weight: weight
+					weight: weight,
+					className: className
 				});
 			}
 		}
@@ -460,12 +463,9 @@ var MDSView = {
 			.style("stroke", "#d1d1d1");
 
 		self.linkLayer.selectAll(".link")
-			.attr("d", function(d) {
-				return d.path;
-			})
-			.style("stroke-width", function(d) {
-				return widthScale(d.weight);
-			})
+			.attr("class", function(d) { return d.className + " link"; })
+			.attr("d", function(d) { return d.path; })
+			.style("stroke-width", function(d) { return widthScale(d.weight); })
 			.style("opacity", 0.7);
 
 		linkSVG.exit().remove();
@@ -482,15 +482,10 @@ var MDSView = {
 			.style("stroke", "#d1d1d1");
 
 		self.linkLayer.selectAll("circle.link")
-			.attr("cx", function(d) {
-				return d.x;
-			})
-			.attr("cy", function(d) {
-				return d.y;
-			})
-			.style("stroke-width", function(d) {
-				return widthScale(d.weight);
-			});
+			.attr("class", function(d) { return d.className + " link"; })
+			.attr("cx", function(d) { return d.x; })
+			.attr("cy", function(d) { return d.y; })
+			.style("stroke-width", function(d) { return widthScale(d.weight); });
 
 		function linkArc(d) {
 		  var dx = d.target.x - d.source.x,
