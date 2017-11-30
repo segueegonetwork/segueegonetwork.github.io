@@ -120,8 +120,6 @@ var NodeLinkDiagram = {
 		var outerNodeNames = [];
 		for (var i = 0; i < Database.egoNetworkDict[name][date].length; i++) {
 			var currentName = Database.egoNetworkDict[name][date][i];
-			var nodeClassName = currentName.split(".").join("-");
-			nodeClassNameList.push("." + nodeClassName); // push ego
 
 			if (currentName != name)
 				outerNodeNames.push(currentName)
@@ -140,6 +138,8 @@ var NodeLinkDiagram = {
 			nodeClassNameList.push("." + nodeClassName); // push alter
 			alterDict[currentName] = nodeObject;
 		}
+		var nodeClassName = name.split(".").join("-");
+		nodeClassNameList.push("." + nodeClassName); // push ego
 		nodes.sort(function(x, y){ return d3.ascending(x.colour, y.colour); });
 
 		// compute position
@@ -218,7 +218,7 @@ var NodeLinkDiagram = {
 			}
 			else {
 				var node = (sourceName == egoName) ? self.ego : self.alterDict[sourceName];
-				linkClassNameList.push("." + sourceClassName + "." + targetClassName);
+				linkClassNameList.push("." + sourceClassName + ".circle");
 				circles.push({ node: node, frequency: linkCount[linkID] });
 			}
 			
