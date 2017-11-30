@@ -1,5 +1,5 @@
 var MDSView = {
-	margin: { top: 60, left: 70, bottom: 50, right: 30 },
+	margin: { top: 70, left: 30, bottom: 170, right: 30 },
 	textMargin: { top: 30, left: 10 },
 
 	width: null,
@@ -37,6 +37,7 @@ var MDSView = {
 	},
 	initButton: function() {
 		var self = this;
+		var networkViewWidth = $("#scatterplot").width();
 
 		var jitterButton = d3.select("#scatterplot")
 			.append("g")
@@ -46,7 +47,7 @@ var MDSView = {
 			.attr("class", "jitter-btn")
 			.attr("x", -self.textMargin.left)
 			.attr("y", -15)
-			.attr("transform", "translate(" + self.width + ", " + self.textMargin.top + ")")
+			.attr("transform", "translate(" + networkViewWidth + ", " + self.textMargin.top + ")")
 			.style("text-anchor", "end")
 			.text("Jitter");
 		var bbox = jitterButton.select("text").node().getBBox();
@@ -55,7 +56,7 @@ var MDSView = {
 			.attr("y", bbox.y - 1)
 			.attr("width", bbox.width + 4)
 			.attr("height", bbox.height + 2)
-			.attr("transform", "translate(" + self.width + ", " + self.textMargin.top + ")")
+			.attr("transform", "translate(" + networkViewWidth + ", " + self.textMargin.top + ")")
 			.attr("rx", 3)
 			.attr("ry", 3)
 			.attr("fill", "#e5e5e5");
