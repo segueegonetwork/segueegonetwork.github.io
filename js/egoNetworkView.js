@@ -186,16 +186,22 @@ var EgoNetworkView = {
 				.style("opacity", 1);
 
 			// highlight nodes
-			d3.selectAll(".node")
+			d3.selectAll("#flow-view .node")
 				.style("opacity", 0);
-			d3.selectAll(".node." + position)
+			d3.selectAll("#flow-view .node." + position)
 				.style("opacity", 1);
 
 			// highlight links
-			d3.selectAll(".link")
+			d3.selectAll("#flow-view .link")
 				.style("opacity", 0);
-			d3.selectAll(".link." + position)
+			d3.selectAll("#flow-view .link." + position)
 				.style("opacity", 1);
+
+			// highlight nodes in MDS view
+			MDSView.nodeLayer.selectAll("circle")
+				.style("opacity", 0.05);
+			MDSView.nodeLayer.selectAll("circle." + position)
+				.style("opacity", 0.7);
 		}
 
 		function onMouseleaveLegend() {
@@ -210,6 +216,10 @@ var EgoNetworkView = {
 			// remove highlight links
 			d3.selectAll(".link")
 				.style("opacity", 1);
+
+			// remove highlight nodes in MDS view
+			MDSView.nodeLayer.selectAll("circle")
+				.style("opacity", 0.7);
 		}
 	},
 	createLegendText: function(position, x, y, textColour) {

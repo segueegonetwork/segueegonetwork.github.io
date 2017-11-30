@@ -235,6 +235,10 @@ var MDSView = {
 
 		// update
 		self.nodeLayer.selectAll("circle")
+			.attr("class", function(d) {
+				var position = Database.employeeDict[d.label].split(" ").join("-");
+				return position;
+			})
 			.style("fill", function(d) {
 				var position = Database.employeeDict[d.label];
 				var positionIndex = Database.position2Index[position];
