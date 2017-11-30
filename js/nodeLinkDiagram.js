@@ -43,8 +43,8 @@ var NodeLinkDiagram = {
 		var date = Database.dateStringArray[timeIndex];
 
 		self.highlightTimeline(timeIndex);
+		MDSView.highlightTimeline(timeIndex);
 		MDSView.updateLinks(date);
-		self.linkLayer.selectAll(".link").remove();
 		self.computeNodeData(name, date);
 		self.computeLinkData(name, date);
 		self.drawNodeLinkDiagram(d3.event.x, d3.event.y);

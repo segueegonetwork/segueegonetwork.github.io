@@ -98,19 +98,10 @@ var MDSView = {
 		// create line
 		self.labelSVG.append("line")
 			.attr("x1", 0)
-			.attr("y1", 35)
+			.attr("y1", 55)
 			.attr("x2", self.width)
-			.attr("y2", 35)
+			.attr("y2", 55)
 			.style("stroke", "#d3d3d3");
-
-		// create label
-		self.labelSVG.append("text")
-			.attr("x", self.width / 2)
-			.attr("y", 66)
-			.style("text-anchor", "middle")
-			.style("font-size", "12px")
-			.style("fill", "gray")
-			.text("Timeline");
 
 		// create circles
 		self.labelSVG.selectAll("cirlce")
@@ -120,7 +111,7 @@ var MDSView = {
 			.attr("cx", function(d, i) {
 				return xScale(i)
 			})
-			.attr("cy", 35)
+			.attr("cy", 55)
 			.attr("r", 5)
 			.style("fill", "white")
 			.style("stroke", "#d3d3d3")
@@ -134,7 +125,7 @@ var MDSView = {
 			.append("text")
 			.attr("class", "date")
 			.attr("transform", function(d, i) {
-				return "translate(" + xScale(i) + ", 20)" + " rotate(-45)";
+				return "translate(" + xScale(i) + ", 35)" + " rotate(-45)";
 			})
 			.style("fill", "gray")
 			.style("alignment-baseline", "middle")
@@ -159,14 +150,12 @@ var MDSView = {
 			}
 
 		self.highlightTimeline(timeIndex);
-		NodeLinkDiagram.highlightTimeline(timeIndex);
 		self.updateLinks(date);
 	},
 	mouseoutDateLabel: function() {
 		var self = MDSView;
 
 		self.removeHighlightTimeline();
-		NodeLinkDiagram.removeHighlightTimeline();
 		self.linkLayer.selectAll(".link").remove();
 	},
 	highlightTimeline: function(timeIndex) {
@@ -181,7 +170,7 @@ var MDSView = {
 
 		// text
 		var targetText = self.labelSVG
-			.selectAll("text")[0][timeIndex];
+			.selectAll(".date")[0][timeIndex];
 		d3.select(targetText)
 			.style("font-size", 13)
 			.style("font-weight", "bold");
