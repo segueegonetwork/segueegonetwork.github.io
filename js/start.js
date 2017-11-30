@@ -6,7 +6,7 @@ var mdsViewWidth = 410;
 var flowViewSvgWidth = 1095;
 
 // add together = 1500 - 5
-var tableViewWidth = 675;
+var tableViewWidth = 410;
 var eventViewWidth = 410;
 
 // add together = 450

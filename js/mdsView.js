@@ -221,12 +221,12 @@ var MDSView = {
 			var circleY = parseInt(d3.select(this).attr("cy"));
 
 			var newPixelGroupLeftRightPadding = 15;
-			var pixelGroupWidth = Table.columnWidth[3] - Table.pixelGroupLeftRightPadding * 2 + newPixelGroupLeftRightPadding * 2;
+			var pixelGroupWidth = Table.columnWidth[2] - Table.pixelGroupLeftRightPadding * 2 + newPixelGroupLeftRightPadding * 2;
 				
 			// * draw pixel display
 			var pixelHeight = (Table.maxPixelGroupsHeight - (EventView.maxNumberOfEvents - 1)) / EventView.maxNumberOfEvents; // 6 = gap numbers x gap pixels
 			var pixelWidth = 4;
-			var paddingBetweenPixel = (Table.columnWidth[3] - Table.pixelGroupLeftRightPadding - Table.pixelGroupLeftRightPadding - pixelWidth * Database.numberOfTimeSteps) / (Database.numberOfTimeSteps - 1)
+			var paddingBetweenPixel = (Table.columnWidth[2] - Table.pixelGroupLeftRightPadding - Table.pixelGroupLeftRightPadding - pixelWidth * Database.numberOfTimeSteps) / (Database.numberOfTimeSteps - 1)
 			var pixelXAndWidthScale = d3.scale.linear()
 				.domain([0, Database.numberOfTimeSteps - 1])
 				.range([0, pixelGroupWidth - newPixelGroupLeftRightPadding - newPixelGroupLeftRightPadding]);

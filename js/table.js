@@ -1,5 +1,5 @@
 var Table = {
-	margin: { top: 0, left: 0, bottom: 0, right: 10 }, // top height not include table legend height
+	margin: { top: 0, left: 0, bottom: 0, right: 5 }, // top height not include table legend height
 	width: null, // no height as it depends on the number of objects to be rendered
 	rowHeight: 35,
 
@@ -21,7 +21,7 @@ var Table = {
 		var topPadding = self.rowHeight / 2 - 6; // font size is 12
 		self.margin.bottom = topPadding * 2; // x 2 because there is no top padding
 		self.width = tableViewWidth - self.margin.left - self.margin.right;
-		self.columnWidth = [self.width / 4 - 30, self.width / 4 - 20, self.width / 4 + 20, self.width / 4 + 30]
+		self.columnWidth = [self.width / 3 - 20, self.width / 3 - 20, self.width / 3 + 40]
 
 		d3.select("#table")
 			.attr("height", self.rowHeight * Database.nameList.length + self.margin.top + self.margin.bottom)
@@ -30,7 +30,6 @@ var Table = {
 			.attr("transform", "translate(" + self.margin.left + ", " + self.margin.top + ")");
 
 		self.createRows();
-		self.createBarCharts();
 		self.createPixelGroups();
 		self.createLegend();
 	},
@@ -118,47 +117,12 @@ var Table = {
 			}
 		}
 	},
-	createBarCharts: function() {
-		var self = this;
-		var row = self.svgGroup.selectAll(".row");
-
-		// create bar charts
-		var barXScale = d3.scale.linear()
-			.domain([0, Database.networkDict[Database.nameList[0]].length - 1])
-			.range([0, self.columnWidth[2] - self.barGroupLeftRightPadding - self.barGroupLeftRightPadding]);
-		var barHeightScale = d3.scale.linear()
-			.domain([0, Database.maxSizeOfAll])
-			.range([0, self.rowHeight - self.barGroupTopBottomPadding * 2]);
-		var barWidth = 5;
-		var barXTranslate = self.columnWidth[0] + self.columnWidth[1] + self.barGroupLeftRightPadding;
-		var barYTranslate = self.rowHeight / 2 - 6 - self.barGroupTopBottomPadding; // 3 is the padding
-
-		var barChart = row.append("g")
-			.attr("transform", "translate(" + barXTranslate + ", " + barYTranslate + ")");
-
-		barChart.selectAll("rect")
-			.data(function(d) {
-				return Database.networkDict[d];
-			})
-			.enter()
-			.append("rect")
-			.attr("width", barWidth)
-			.attr("height", function(d, i) {
-				return barHeightScale(d.size);
-			})
-			.attr("x", function(d, i) {
-				return barXScale(i)
-			})
-			.attr("y", function(d, i) {
-				return self.rowHeight - barHeightScale(d.size);
-			});
-	},
 	createPixelGroups: function() {
 		var self = this;
 		var row = self.svgGroup.selectAll(".row");
 
 		// create event pixel group
-		var pixelGroupXTranslate = self.columnWidth[0] + self.columnWidth[1] + self.columnWidth[2] + self.pixelGroupLeftRightPadding;
+		var pixelGroupXTranslate = self.columnWidth[0] + self.columnWidth[1] + self.pixelGroupLeftRightPadding;
 		var pixelGroupYTranslate = self.rowHeight / 2 - 6 + self.pixelGroupTopBottomPadding; // yTranslate should be the same as the rectangle for hovering
 
 		row.append("g")
@@ -196,16 +160,8 @@ var Table = {
 			.style("text-anchor", "middle")
 			.style("alignment-baseline", "middle");
 		legend.append("text")
-			.text("Ego-network Size")
-			.attr("x", self.columnWidth[0] + self.columnWidth[1] + self.columnWidth[2] / 2)
-			.attr("y", self.rowHeight / 2)
-			.style("font-size", 12)
-			.style("font-weight", "bold")
-			.style("text-anchor", "middle")
-			.style("alignment-baseline", "middle");
-		legend.append("text")
 			.text("Events")
-			.attr("x", self.columnWidth[0] + self.columnWidth[1] + self.columnWidth[2] + self.columnWidth[3] / 2)
+			.attr("x", self.columnWidth[0] + self.columnWidth[1] + self.columnWidth[2] / 2)
 			.attr("y", self.rowHeight / 2)
 			.style("font-size", 12)
 			.style("font-weight", "bold")
@@ -213,7 +169,7 @@ var Table = {
 			.style("alignment-baseline", "middle");
 
 		// create download button
-		var xTranslate = self.columnWidth[0] + self.columnWidth[1] + self.columnWidth[2] + self.columnWidth[3] / 2 + 55;
+		var xTranslate = self.columnWidth[0] + self.columnWidth[1] + self.columnWidth[2] / 2 + 55;
 		var downloadButton = legend.append("g")
 			.attr("class", "download-button")
 			.attr("transform", "translate(" + xTranslate + ", " + 0 + ")")
@@ -264,10 +220,10 @@ var Table = {
 		// * update the events in the table
 		var pixelHeight = (self.maxPixelGroupsHeight - (EventView.maxNumberOfEvents - 1)) / EventView.maxNumberOfEvents; // 6 = gap numbers x gap pixels
 		var pixelWidth = 4;
-		var paddingBetweenPixel = (self.columnWidth[3] - self.pixelGroupLeftRightPadding - self.pixelGroupLeftRightPadding - pixelWidth * Database.numberOfTimeSteps) / (Database.numberOfTimeSteps - 1)
+		var paddingBetweenPixel = (self.columnWidth[2] - self.pixelGroupLeftRightPadding - self.pixelGroupLeftRightPadding - pixelWidth * Database.numberOfTimeSteps) / (Database.numberOfTimeSteps - 1)
 		var pixelXAndWidthScale = d3.scale.linear()
 			.domain([0, Database.numberOfTimeSteps - 1])
-			.range([0, self.columnWidth[3] - self.pixelGroupLeftRightPadding - self.pixelGroupLeftRightPadding]);
+			.range([0, self.columnWidth[2] - self.pixelGroupLeftRightPadding - self.pixelGroupLeftRightPadding]);
 
 		var eventPixelGroup = self.svgGroup.selectAll(".row .event-pixel-group");
 
