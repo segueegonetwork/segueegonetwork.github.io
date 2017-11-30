@@ -12,6 +12,7 @@ var Timeline = {
 
 		// draw axis
 		var parseDate = d3.time.format("%Y-%m").parse;
+		var timeFormat = d3.time.format("%b %y");
 
 		var numberOfTimeSteps = Database.numberOfTimeSteps;
 		var firstDate = Database.networkDict[Database.nameList[0]][0].date;
@@ -23,7 +24,7 @@ var Timeline = {
 	  	var xAxis = d3.svg.axis()
 			.scale(xScale)
 			.orient("bottom")
-			.tickFormat(d3.time.format("%b %y"))
+			.tickFormat()
 			.ticks(numberOfTimeSteps);
 
 	  	var xAxisSVG = self.svg.append("g")

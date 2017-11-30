@@ -18,8 +18,8 @@ var flowViewSvgWidth = 898;
 var flowViewWidth = 898;
 var flowViewFlowWrapperWidth = "calc(100% - 1px)"
 
-var flowSvgHeight = 348;
-var timelineSvgHeight = 45;
+var flowSvgHeight = 343;
+var timelineSvgHeight = 50;
 var menuBarHeight = 20;
 
 $(function() {

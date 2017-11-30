@@ -83,61 +83,73 @@ var MDSView = {
 	},
 	initLabel: function() {
 		var self = this;
+		var labelTranslateY = self.height + self.margin.top + self.margin.bottom / 2;
 
-		var yScale = d3.scale.linear()
+		var xScale = d3.scale.linear()
 			.domain([0, Database.dateStringArray.length - 1])
-			.range([0, self.height - 50]);
+			.range([0, self.width]);
 
 		// create group
 		self.labelSVG = d3.select("#scatterplot").append("g")
-			.attr("transform", "translate(10, 35)")
-			.style("cursor", "pointer")
-			.on("mouseenter", mouseenterLabelSVG)
-			.on("mouseleave", mouseleaveLabelSVG);
+			.attr("transform", "translate(" + self.margin.left + "," + labelTranslateY + ")")
+			.style("cursor", "pointer");
+
+		// create line
+		self.labelSVG.append("line")
+			.attr("x1", 0)
+			.attr("y1", 35)
+			.attr("x2", self.width)
+			.attr("y2", 35)
+			.style("stroke", "#d3d3d3");
+
+		// create label
+		self.labelSVG.append("text")
+			.attr("x", self.width / 2)
+			.attr("y", 66)
+			.style("text-anchor", "middle")
+			.style("font-size", "12px")
+			.text("Timeline");
+
+		// create circles
+		self.labelSVG.selectAll("cirlce")
+			.data(Database.dateStringArray)
+			.enter()
+			.append("circle")
+			.attr("cx", function(d, i) {
+				return xScale(i)
+			})
+			.attr("cy", 35)
+			.attr("r", 5)
+			.style("fill", "white")
+			.style("stroke", "#d3d3d3")
+			.on("mouseover", mouseoverDateLabel)
+			.on("mouseout", mouseoutDateLabel);
 
 		// create text
-		var labels = self.labelSVG.selectAll("text")
+		self.labelSVG.selectAll(".date")
 			.data(Database.dateStringArray)
 			.enter()
 			.append("text")
+			.attr("class", "date")
 			.attr("transform", function(d, i) {
-				return "translate(0, " + yScale(i) + ")";
+				return "translate(" + xScale(i) + ", 20)" + " rotate(-45)";
 			})
 			.style("alignment-baseline", "middle")
-			.style("opacity", 0)
 			.text(function(d) {
-				return d;
+				var parseDate = d3.time.format("%Y-%m").parse;
+				var formatTime = d3.time.format("%b %y");
+				return formatTime(parseDate(d)); 
 			})
 			.on("mouseover", mouseoverDateLabel)
 			.on("mouseout", mouseoutDateLabel);
 
-		// create background
-		var labelBBox = self.labelSVG.node().getBBox();
-
-		self.labelSVG.insert("rect", "text")
-			.attr("x", labelBBox.x)
-			.attr("y", labelBBox.y)
-			.attr("width", labelBBox.width)
-			.attr("height", labelBBox.height)
-			.style("fill", "white");
-
-		function mouseoverDateLabel() {
-			var date = d3.select(this).text();
+		function mouseoverDateLabel(d) {
+			var date = d;
 			self.updateLinks(date);
 		}
 
 		function mouseoutDateLabel() {
 			self.linkLayer.selectAll(".link").remove();
-		}
-
-		function mouseenterLabelSVG() {
-			d3.select(this).selectAll("text")
-				.style("opacity", 1);
-		}
-
-		function mouseleaveLabelSVG() {
-			d3.select(this).selectAll("text")
-				.style("opacity", 0);
 		}
 	},
 	restore: function() {
