@@ -4,7 +4,7 @@ var TimeSeriesAreaCharts = {
 	width: null,
 	timeSeries: null,
 	name: null,
-	tickHeight: 20,
+	tickHeight: 10,
 
 	parentSVG: null,
 	svgGroup: null,

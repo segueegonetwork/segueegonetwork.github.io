@@ -354,7 +354,11 @@ var NodeLinkDiagram = {
 			})
 			.style("alignment-baseline", "middle")
 			.text(function(d) {
-				return d.name; 
+				if (!d.name)
+					return null;
+
+				var name = (d.name.length > 13) ? d.name.substring(0, 15) + "..." : d.name;
+				return name; 
 			});
 
 		labels.exit().remove();
