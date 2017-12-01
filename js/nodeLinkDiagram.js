@@ -51,7 +51,7 @@ var NodeLinkDiagram = {
 		var timeIndex = self.getCurrentTimeIndex(d3.mouse(this)[0]);
 
 		Timeline.select(timeIndex);
-		StateHandler.storeStateOfScatterplot(self.nodeClassNameList, self.linkClassNameList, self.egoClassName);
+		StateHandler.storeStateOfScatterplot(timeIndex, self.nodeClassNameList, self.linkClassNameList, self.egoClassName);
 	},
 	onMousemoveFlow: function() {
 		var self = NodeLinkDiagram;
@@ -90,7 +90,7 @@ var NodeLinkDiagram = {
 		MDSView.linkLayer.selectAll(".link").remove();
 
 		if (StateHandler.isScatterplotLocked()) {
-			var timeIndex = self.getCurrentTimeIndex(d3.mouse(this)[0]);
+			var timeIndex = StateHandler.timeIndex;
 			var date = Database.dateStringArray[timeIndex];
 			var nodeClassNameList = StateHandler.nodeClassNameList;
 			var linkClassNameList = StateHandler.linkClassNameList;

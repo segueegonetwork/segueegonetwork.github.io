@@ -195,10 +195,25 @@ var MDSView = {
 		var self = this;
 
 		ComparisonHandler.computeOriginalScatterplotCoord();
-		self.updateNodes();
+		self.updateNodes(callback);
+
+		function callback() {
+			if (StateHandler.isScatterplotLocked()) {
+				var timeIndex = StateHandler.timeIndex;
+				var date = Database.dateStringArray[timeIndex];
+				var nodeClassNameList = StateHandler.nodeClassNameList;
+				var linkClassNameList = StateHandler.linkClassNameList;
+				var egoClassName = StateHandler.egoClassName;
+
+				MDSView.updateLinks(date);
+				MDSView.highlightEgoNetwork(nodeClassNameList, linkClassNameList, egoClassName);
+			}
+		}
 	},
 	update: function() {
 		var self = this;
+
+		MDSView.linkLayer.selectAll(".link").remove();
 
 		if (Database.events.length == 0) {
 			self.restore();
@@ -206,10 +221,23 @@ var MDSView = {
 		else {
 			ComparisonHandler.computeFeatureVectors();
 			ComparisonHandler.computeScatterplotCoord();
-			self.updateNodes();
+			self.updateNodes(callback);
+		}
+
+		function callback() {
+			if (StateHandler.isScatterplotLocked()) {
+				var timeIndex = StateHandler.timeIndex;
+				var date = Database.dateStringArray[timeIndex];
+				var nodeClassNameList = StateHandler.nodeClassNameList;
+				var linkClassNameList = StateHandler.linkClassNameList;
+				var egoClassName = StateHandler.egoClassName;
+
+				MDSView.updateLinks(date);
+				MDSView.highlightEgoNetwork(nodeClassNameList, linkClassNameList, egoClassName);
+			}
 		}
 	},
-	updateNodes: function() {
+	updateNodes: function(callback) {
 		var self = this;
 
 		// join
@@ -228,6 +256,7 @@ var MDSView = {
 			.on("mouseout", mouseoutCircle);
 
 		// update
+		var n = 0;
 		self.nodeLayer.selectAll("circle")
 			.attr("class", function(d) {
 				var position = Database.employeeDict[d.label].split(" ").join("-");
@@ -246,6 +275,13 @@ var MDSView = {
 			})
 			.attr("cy", function(d) {
 				return d.y;
+			})
+			.each("start", function() { n++; })
+			.each("end", function() {
+				n--;
+				if (!n) {
+		           callback();
+		       }
 			});
 			
 		// exit

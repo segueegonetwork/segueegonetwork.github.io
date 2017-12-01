@@ -2,10 +2,12 @@ var StateHandler = {
 	nodeClassNameList: null,
 	linkClassNameList: null,
 	egoClassName: null,
+	timeIndex: null,
 
-	storeStateOfScatterplot: function(nodeClassNameList, linkClassNameList, egoClassName) {
+	storeStateOfScatterplot: function(timeIndex, nodeClassNameList, linkClassNameList, egoClassName) {
 		var self = this;
 
+		self.timeIndex = timeIndex;
 		self.nodeClassNameList = nodeClassNameList;
 		self.linkClassNameList = linkClassNameList;
 		self.egoClassName = egoClassName;
@@ -19,7 +21,7 @@ var StateHandler = {
 	},
 	isScatterplotLocked: function() {
 		var self = this;
-		
+
 		return self.nodeClassNameList != null;
 	}
 }
