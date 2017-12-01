@@ -1,6 +1,8 @@
 var ComparisonHandler = {
 	featureVectors: {},
 	scatterplotCoord: [],
+	scatterplotCoordForDisplay: [],
+
 
 	computeFeatureVectors: function() {
 		var self = this;
@@ -79,11 +81,32 @@ var ComparisonHandler = {
 	  		var currentObject = {
 	  			x: currentX,
 	  			y: currentY,
-	  			label: currentLabel
+	  			label: currentLabel 
 	  		};
 
 	  		self.scatterplotCoord.push(currentObject);
 	  	}
+
+	  	// create for display (scaled)
+	  	var xScale = d3.scale.linear()
+			.domain(d3.extent(ComparisonHandler.scatterplotCoord, function(d) { return d.x; }))
+			.range([0, MDSView.width]);
+		var yScale = d3.scale.linear()
+			.domain(d3.extent(ComparisonHandler.scatterplotCoord, function(d) { return d.y; }))
+			.range([0, MDSView.height]);
+
+		self.scatterplotCoordForDisplay = [];
+		for (var i = 0; i < self.scatterplotCoord.length; i++) {
+			var x = self.scatterplotCoord[i].x;
+			var y = self.scatterplotCoord[i].y;
+			var label = self.scatterplotCoord[i].label;
+
+			self.scatterplotCoordForDisplay.push({
+				x: xScale(x), 
+				y: yScale(y),
+				label: label 
+			});
+		}
 	},
 	computeScatterplotCoord: function() {
 		var self = this;
@@ -111,8 +134,46 @@ var ComparisonHandler = {
 
 			distances.push(currentDistances);
 		}
-
 		self.scatterplotCoord = mds.classic(distances, labels);
+
+		// create for display (scaled)
+		var xScale = d3.scale.linear()
+			.domain(d3.extent(ComparisonHandler.scatterplotCoord, function(d) { return d.x; }))
+			.range([0, MDSView.width]);
+		var yScale = d3.scale.linear()
+			.domain(d3.extent(ComparisonHandler.scatterplotCoord, function(d) { return d.y; }))
+			.range([0, MDSView.height]);
+
+		self.scatterplotCoordForDisplay = [];
+		for (var i = 0; i < self.scatterplotCoord.length; i++) {
+			var x = self.scatterplotCoord[i].x;
+			var y = self.scatterplotCoord[i].y;
+			var label = self.scatterplotCoord[i].label;
+
+			self.scatterplotCoordForDisplay.push({
+				x: xScale(x),
+				y: yScale(y),
+				label: label 
+			});
+		}
+	},
+	jitterScatterplotCoordForDisplay: function() {
+		var self = this;
+
+		var xScale = d3.scale.linear()
+			.domain(d3.extent(ComparisonHandler.scatterplotCoord, function(d) { return d.x; }))
+			.range([0, MDSView.width]);
+		var yScale = d3.scale.linear()
+			.domain(d3.extent(ComparisonHandler.scatterplotCoord, function(d) { return d.y; }))
+			.range([0, MDSView.height]);
+
+		for (var i = 0; i < self.scatterplotCoord.length; i++) {
+			var newX = xScale(self.scatterplotCoord[i].x) + Math.floor(Math.random() * 20) - 10;
+			var newY = yScale(self.scatterplotCoord[i].y) + Math.floor(Math.random() * 20) - 10;
+
+			self.scatterplotCoordForDisplay[i].x = newX;
+			self.scatterplotCoordForDisplay[i].y = newY;
+		}
 	},
 	computeVectorDistance: function(vector1, vector2) {
 		var distance = 0;

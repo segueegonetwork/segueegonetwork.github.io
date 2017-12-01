@@ -62,23 +62,13 @@ var MDSView = {
 			.attr("fill", "#e5e5e5");
 
 		function clickJitterBtn() {
-			var xScale = d3.scale.linear()
-				.domain(d3.extent(ComparisonHandler.scatterplotCoord, function(d) { return d.x; }))
-				.range([0, self.width]);
-			var yScale = d3.scale.linear()
-				.domain(d3.extent(ComparisonHandler.scatterplotCoord, function(d) { return d.y; }))
-				.range([0, self.height]);
+			ComparisonHandler.jitterScatterplotCoordForDisplay();
 
 			self.nodeLayer.selectAll("circle")
+				.data(ComparisonHandler.scatterplotCoordForDisplay)
 				.transition()
-				.attr("cx", function(d, i) {
-					var randomX = xScale(d.x) + Math.floor(Math.random() * 20) - 10;
-					return randomX;
-				})
-				.attr("cy", function(d) {
-					var randomY = yScale(d.y) + Math.floor(Math.random() * 20) - 10;
-					return randomY;
-				})
+				.attr("cx", function(d) { return d.x; })
+				.attr("cy", function(d) { return d.y; })
 		}
 	},
 	initLabel: function() {
@@ -211,16 +201,9 @@ var MDSView = {
 	updateNodes: function() {
 		var self = this;
 
-		var xScale = d3.scale.linear()
-			.domain(d3.extent(ComparisonHandler.scatterplotCoord, function(d) { return d.x; }))
-			.range([0, self.width]);
-		var yScale = d3.scale.linear()
-			.domain(d3.extent(ComparisonHandler.scatterplotCoord, function(d) { return d.y; }))
-			.range([0, self.height]);
-
 		// join
 		var circle = self.nodeLayer.selectAll("circle")
-			.data(ComparisonHandler.scatterplotCoord);
+			.data(ComparisonHandler.scatterplotCoordForDisplay);
 
 		// enter
 		var circleEnter = circle.enter()
@@ -248,10 +231,10 @@ var MDSView = {
 			})
 			.transition()
 			.attr("cx", function(d) {
-				return xScale(d.x);
+				return d.x;
 			})
 			.attr("cy", function(d) {
-				return yScale(d.y);
+				return d.y;
 			});
 			
 		// exit
@@ -381,19 +364,12 @@ var MDSView = {
 		var self = this;
 
 		// compute coordinate of labels
-		var xScale = d3.scale.linear()
-			.domain(d3.extent(ComparisonHandler.scatterplotCoord, function(d) { return d.x; }))
-			.range([0, self.width]);
-		var yScale = d3.scale.linear()
-			.domain(d3.extent(ComparisonHandler.scatterplotCoord, function(d) { return d.y; }))
-			.range([0, self.height]);
-
 		var labelCoord = {};
-		for (var i = 0; i < ComparisonHandler.scatterplotCoord.length; i++) {
-			var currentNode = ComparisonHandler.scatterplotCoord[i];
+		for (var i = 0; i < ComparisonHandler.scatterplotCoordForDisplay.length; i++) {
+			var currentNode = ComparisonHandler.scatterplotCoordForDisplay[i];
 			labelCoord[currentNode.label] = {
-				x: xScale(currentNode.x),
-				y: yScale(currentNode.y)
+				x: currentNode.x,
+				y: currentNode.y
 			}
 		}
 
@@ -450,9 +426,9 @@ var MDSView = {
 		}
 
 		// draw link
-		var widthScale = d3.scale.linear()
+		var strokeScale = d3.scale.linear()
 			.domain([1, Database.maxLinkCountToANode])
-			.range([1, 4]);
+			.range([1, 8]);
 
 		var linkSVG = self.linkLayer.selectAll("path.link")
 			.data(linkData);
@@ -466,7 +442,9 @@ var MDSView = {
 		self.linkLayer.selectAll(".link")
 			.attr("class", function(d) { return d.className + " link"; })
 			.attr("d", function(d) { return d.path; })
-			.style("stroke-width", function(d) { return widthScale(d.weight); })
+			.style("stroke-width", function(d) {
+				return strokeScale(d.weight); 
+			})
 			.style("opacity", 0.7);
 
 		linkSVG.exit().remove();
@@ -484,9 +462,15 @@ var MDSView = {
 
 		self.linkLayer.selectAll("circle.link")
 			.attr("class", function(d) { return d.className + " link"; })
-			.attr("cx", function(d) { return d.x; })
-			.attr("cy", function(d) { return d.y; })
-			.style("stroke-width", function(d) { return widthScale(d.weight); });
+			.attr("cx", function(d) {
+				return d.x; 
+			})
+			.attr("cy", function(d) {
+				return d.y;
+			})
+			.style("stroke-width", function(d) {
+				return strokeScale(d.weight);
+			});
 
 		function linkArc(d) {
 		  var dx = d.target.x - d.source.x,

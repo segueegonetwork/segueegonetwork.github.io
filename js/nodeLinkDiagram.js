@@ -319,11 +319,15 @@ var NodeLinkDiagram = {
 		// enter
 		nodes.enter()
 			.append("circle")
-			.attr("r", 5)
 			.style("stroke", "#d3d3d3");
 
 		// update
 		d3.selectAll("#node-link-diagram .node-layer circle")
+			.attr("r", function(d) {
+				var isFocalNode = d.name == null;
+				var radius = isFocalNode ? 10 : 5;
+				return radius;
+			})
 			.attr("cx", function(d) { return d.x; })
 			.attr("cy", function(d) { return d.y; })
 			.style("fill", function(d) { return d.colour; });
