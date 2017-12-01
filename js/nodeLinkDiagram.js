@@ -86,8 +86,11 @@ var NodeLinkDiagram = {
 		self.hideNodeLinkDiagram();
 		MDSView.removeHighlightTimeline();
 		Timeline.removeHighlight();
-		MDSView.removeHighlightEgoNetwork();
-		MDSView.linkLayer.selectAll(".link").remove();
+
+		if (!StateHandler.isScatterplotLocked()) {
+			MDSView.removeHighlightEgoNetwork();
+			MDSView.linkLayer.selectAll(".link").remove();
+		}
 	},
 	getCurrentTimeIndex: function(mouseX) {
 		var totalNumberOfTimePeriods = Database.numberOfTimeSteps - 1;

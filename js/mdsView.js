@@ -366,9 +366,6 @@ var MDSView = {
 		function mouseoutCircle(d) {
 			// remove text and pixel display
 			d3.select("#current-pixel-group").remove();
-
-			// remove link
-			self.linkLayer.selectAll(".link").remove();
 		}
 	},
 	updateLinks: function(date) {
