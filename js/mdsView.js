@@ -63,12 +63,8 @@ var MDSView = {
 
 		function clickJitterBtn() {
 			ComparisonHandler.jitterScatterplotCoordForDisplay();
-
-			self.nodeLayer.selectAll("circle")
-				.data(ComparisonHandler.scatterplotCoordForDisplay)
-				.transition()
-				.attr("cx", function(d) { return d.x; })
-				.attr("cy", function(d) { return d.y; })
+			MDSView.linkLayer.selectAll(".link").remove();
+			self.updateNodes(StateHandler.restoreState);
 		}
 	},
 	initLabel: function() {
@@ -105,6 +101,7 @@ var MDSView = {
 			.attr("r", 5)
 			.style("fill", "white")
 			.style("stroke", "#d3d3d3")
+			.on("click", self.clickDateLabel)
 			.on("mouseover", self.mouseoverDateLabel)
 			.on("mouseout", self.mouseoutDateLabel);
 
@@ -125,8 +122,19 @@ var MDSView = {
 				var dateString = formatTime(parseDate(d));
 				return dateString;
 			})
+			.on("click", self.clickDateLabel)
 			.on("mouseover", self.mouseoverDateLabel)
 			.on("mouseout", self.mouseoutDateLabel);
+	},
+	clickDateLabel: function(d, i) {
+		var date = d;
+		var timeIndex = i;
+		var parseDate = d3.time.format("%Y-%m").parse;
+		var timeFormat = d3.time.format("%b %y");
+		var timeString = timeFormat(parseDate(date));
+		
+		StateHandler.addVisualLock("The entire network", timeString);
+		StateHandler.storeState("entire", timeIndex);
 	},
 	mouseoverDateLabel: function(d) {
 		var self = MDSView;
@@ -143,10 +151,7 @@ var MDSView = {
 		self.updateLinks(date);
 	},
 	mouseoutDateLabel: function() {
-		var self = MDSView;
-
-		self.removeHighlightTimeline();
-		self.linkLayer.selectAll(".link").remove();
+		StateHandler.restoreState();
 	},
 	highlightTimeline: function(timeIndex) {
 		var self = this;
@@ -184,20 +189,7 @@ var MDSView = {
 		var self = this;
 
 		ComparisonHandler.computeOriginalScatterplotCoord();
-		self.updateNodes(callback);
-
-		function callback() {
-			if (StateHandler.isScatterplotLocked()) {
-				var timeIndex = StateHandler.timeIndex;
-				var date = Database.dateStringArray[timeIndex];
-				var nodeClassNameList = StateHandler.nodeClassNameList;
-				var linkClassNameList = StateHandler.linkClassNameList;
-				var egoClassName = StateHandler.egoClassName;
-
-				MDSView.updateLinks(date);
-				MDSView.highlightEgoNetwork(nodeClassNameList, linkClassNameList, egoClassName);
-			}
-		}
+		self.updateNodes(StateHandler.restoreState);
 	},
 	update: function() {
 		var self = this;
@@ -210,20 +202,7 @@ var MDSView = {
 		else {
 			ComparisonHandler.computeFeatureVectors();
 			ComparisonHandler.computeScatterplotCoord();
-			self.updateNodes(callback);
-		}
-
-		function callback() {
-			if (StateHandler.isScatterplotLocked()) {
-				var timeIndex = StateHandler.timeIndex;
-				var date = Database.dateStringArray[timeIndex];
-				var nodeClassNameList = StateHandler.nodeClassNameList;
-				var linkClassNameList = StateHandler.linkClassNameList;
-				var egoClassName = StateHandler.egoClassName;
-
-				MDSView.updateLinks(date);
-				MDSView.highlightEgoNetwork(nodeClassNameList, linkClassNameList, egoClassName);
-			}
+			self.updateNodes(StateHandler.restoreState);
 		}
 	},
 	updateNodes: function(callback) {

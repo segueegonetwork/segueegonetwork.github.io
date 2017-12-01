@@ -48,8 +48,14 @@ var NodeLinkDiagram = {
 	onClickFlow: function() {
 		var self = NodeLinkDiagram;
 		var timeIndex = self.getCurrentTimeIndex(d3.mouse(this)[0]);
+		var date = Database.dateStringArray[timeIndex];
+		var parseDate = d3.time.format("%Y-%m").parse;
+		var timeFormat = d3.time.format("%b %y");
+		var timeString = timeFormat(parseDate(date));
+		var name = d3.select(this).attr("name");
 
-		StateHandler.storeStateOfScatterplot(timeIndex, self.nodeClassNameList, self.linkClassNameList, self.egoClassName);
+		StateHandler.addVisualLock("Ego-network of " + name, timeString);
+		StateHandler.storeState("ego", timeIndex, self.nodeClassNameList, self.linkClassNameList, self.egoClassName);
 	},
 	onMousemoveFlow: function() {
 		var self = NodeLinkDiagram;
@@ -80,22 +86,9 @@ var NodeLinkDiagram = {
 		var self = NodeLinkDiagram;
 		
 		self.hideNodeLinkDiagram();
-		MDSView.removeHighlightTimeline();
-		Timeline.removeHighlight();
-		MDSView.removeHighlightEgoNetwork();
-		MDSView.linkLayer.selectAll(".link").remove();
 		self.previousDate = null;
-
-		if (StateHandler.isScatterplotLocked()) {
-			var timeIndex = StateHandler.timeIndex;
-			var date = Database.dateStringArray[timeIndex];
-			var nodeClassNameList = StateHandler.nodeClassNameList;
-			var linkClassNameList = StateHandler.linkClassNameList;
-			var egoClassName = StateHandler.egoClassName;
-
-			MDSView.updateLinks(date);
-			MDSView.highlightEgoNetwork(nodeClassNameList, linkClassNameList, egoClassName);
-		}
+		Timeline.removeHighlight();
+		StateHandler.restoreState();
 	},
 	getCurrentTimeIndex: function(mouseX) {
 		var totalNumberOfTimePeriods = Database.numberOfTimeSteps - 1;
