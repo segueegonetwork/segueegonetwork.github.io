@@ -64,11 +64,7 @@ var Timeline = {
 		var targetDateGroup = self.svg.selectAll(".date")[0][timeIndex];
 
 		// restore all
-		self.svg.selectAll("text")
-			.style("font-size", null)
-			.style("font-weight", null);
-		self.svg.selectAll("circle")
-			.style("fill", null);
+		self.removeHighlight();
 
 		// text
 		var text = d3.select(targetDateGroup).select("text")
@@ -110,7 +106,7 @@ var Timeline = {
 		var self = this;
 		var targetDateGroup = self.svg.selectAll(".date")[0][timeIndex];
 
-		d3.select(targetDateGroup)
-			.classed("selected", true);
+		d3.selectAll(".date").classed("selected", false);
+		d3.select(targetDateGroup).classed("selected", true);
 	}	
 }

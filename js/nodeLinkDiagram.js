@@ -82,14 +82,22 @@ var NodeLinkDiagram = {
 	},
 	onMouseleaveFlow: function() {
 		var self = NodeLinkDiagram;
-
+		
 		self.hideNodeLinkDiagram();
 		MDSView.removeHighlightTimeline();
 		Timeline.removeHighlight();
+		MDSView.removeHighlightEgoNetwork();
+		MDSView.linkLayer.selectAll(".link").remove();
 
-		if (!StateHandler.isScatterplotLocked()) {
-			MDSView.removeHighlightEgoNetwork();
-			MDSView.linkLayer.selectAll(".link").remove();
+		if (StateHandler.isScatterplotLocked()) {
+			var timeIndex = self.getCurrentTimeIndex(d3.mouse(this)[0]);
+			var date = Database.dateStringArray[timeIndex];
+			var nodeClassNameList = StateHandler.nodeClassNameList;
+			var linkClassNameList = StateHandler.linkClassNameList;
+			var egoClassName = StateHandler.egoClassName;
+
+			MDSView.updateLinks(date);
+			MDSView.highlightEgoNetwork(nodeClassNameList, linkClassNameList, egoClassName);
 		}
 	},
 	getCurrentTimeIndex: function(mouseX) {
