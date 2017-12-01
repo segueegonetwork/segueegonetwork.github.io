@@ -65,5 +65,38 @@ var Timeline = {
 				.attr("width", bbox.width + 6)
 				.attr("height", bbox.height + 4);
 		});
+	},
+	highlight: function(timeIndex) {
+		var self = this;
+
+		// restore all
+		self.svg.selectAll("text")
+			.style("font-size", null)
+			.style("font-weight", null);
+		self.svg.selectAll("circle")
+			.style("fill", "white");
+
+		// text
+		var targetText = self.svg.selectAll("text")[0][timeIndex];
+		d3.select(targetText)
+			.style("font-size", 13)
+			.style("font-weight", "bold");
+
+		// circle
+		var targetCircle = self.svg.selectAll("circle")[0][timeIndex];
+		d3.select(targetCircle)
+			.style("fill", "#d3d3d3");
+	},
+	removeHighlight: function() {
+		var self = this;
+		
+		self.svg.selectAll("text")
+			.style("font-size", null)
+			.style("font-weight", null);
+		self.svg.selectAll("circle")
+			.style("fill", "white");
+	},
+	select: function(timeIndex) {
+
 	}
 }

@@ -43,7 +43,14 @@ var NodeLinkDiagram = {
 
 		flowObject
 			.on("mousemove", self.onMousemoveFlow)
-			.on("mouseleave", self.onMouseleaveFlow);
+			.on("mouseleave", self.onMouseleaveFlow)
+			.on("click", self.onClickFlow);
+	},
+	onClickFlow: function() {
+		var self = NodeLinkDiagram;
+		var timeIndex = self.getCurrentTimeIndex(d3.mouse(this)[0]);
+		var date = Database.dateStringArray[timeIndex];
+
 	},
 	onMousemoveFlow: function() {
 		var self = NodeLinkDiagram;
@@ -64,12 +71,11 @@ var NodeLinkDiagram = {
 			self.previousName = name;
 		}
 		
-		self.highlightTimeline(timeIndex);
 		self.computeNodeData(name, date);
 		self.computeLinkData(name, date);
 		self.drawNodeLinkDiagram(top, left);
-
 		MDSView.updateLinks(date);
+		Timeline.highlight(timeIndex);
 		MDSView.highlightTimeline(timeIndex);
 		MDSView.highlightEgoNetwork(self.nodeClassNameList, self.linkClassNameList, self.egoClassName);
 	},
@@ -77,9 +83,8 @@ var NodeLinkDiagram = {
 		var self = NodeLinkDiagram;
 
 		self.hideNodeLinkDiagram();
-		self.removeHighlightTimeline();
-
 		MDSView.removeHighlightTimeline();
+		Timeline.removeHighlight();
 		MDSView.removeHighlightEgoNetwork();
 		MDSView.linkLayer.selectAll(".link").remove();
 	},
@@ -91,38 +96,6 @@ var NodeLinkDiagram = {
 		var numberOfTimePeriods = convertedMouseX / widthOfOneTimePeriod;
 
 		return Math.floor(numberOfTimePeriods); // 0 - 23
-	},
-	highlightTimeline: function(timeIndex) {
-		// restore all
-		d3.select("#timeline")
-			.selectAll("text")
-			.style("font-size", null)
-			.style("font-weight", null);
-		d3.select("#timeline")
-			.selectAll("circle")
-			.style("fill", "white");
-
-		// text
-		var targetText = d3.select("#timeline")
-			.selectAll("text")[0][timeIndex];
-		d3.select(targetText)
-			.style("font-size", 13)
-			.style("font-weight", "bold");
-
-		// circle
-		var targetCircle = d3.select("#timeline")
-			.selectAll("circle")[0][timeIndex];
-		d3.select(targetCircle)
-			.style("fill", "#d3d3d3");
-	},
-	removeHighlightTimeline: function() {
-		d3.select("#timeline")
-			.selectAll("text")
-			.style("font-size", null)
-			.style("font-weight", null);
-		d3.select("#timeline")
-			.selectAll("circle")
-			.style("fill", "white");
 	},
 	computeNodeData: function(name, date) {
 		var self = this;
