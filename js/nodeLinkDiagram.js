@@ -48,7 +48,6 @@ var NodeLinkDiagram = {
 	onClickFlow: function() {
 		var self = NodeLinkDiagram;
 		var timeIndex = self.getCurrentTimeIndex(d3.mouse(this)[0]);
-
 		var removeSelection = Timeline.select(timeIndex);
 
 		if (!removeSelection)

@@ -113,14 +113,19 @@ var FlowVis = {
 			.style("font-size", 40);
 	},
 	updateFocus: function(className, timeIndex) {
+		// remove focus
+		d3.selectAll("#flow-view .flow-vis .start-focus").remove();
+		d3.selectAll("#flow-view .flow-vis .end-focus").remove();
+
+		// add focus
 		var flowGroup = d3.select("#flow-view .flow." + className);
 		var totalNumberOfTimePeriods = Database.numberOfTimeSteps - 1;
 		var widthOfOneTimePeriod = (EgoNetworkView.canvasWidth - EgoNetworkView.margin.left - EgoNetworkView.margin.right) / totalNumberOfTimePeriods;
 
 		var height = flowGroup.select(".flow-vis").node().getBBox().height;
 		var firstStartX = 0;
-		var firstEndX = (timeIndex - 1) * widthOfOneTimePeriod + widthOfOneTimePeriod / 4 * 3;
-		var secondStartX = (timeIndex + 1) * widthOfOneTimePeriod - widthOfOneTimePeriod / 4 * 3;
+		var firstEndX = (timeIndex - 1) * widthOfOneTimePeriod + widthOfOneTimePeriod / 2;
+		var secondStartX = (timeIndex + 1) * widthOfOneTimePeriod - widthOfOneTimePeriod / 2;
 		var secondEndX = (totalNumberOfTimePeriods + 1) * widthOfOneTimePeriod;
 
 		if (flowGroup.select(".flow-vis").select(".start-focus").empty()) {

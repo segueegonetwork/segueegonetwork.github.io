@@ -64,7 +64,22 @@ var Timeline = {
 		var targetDateGroup = self.svg.selectAll(".date")[0][timeIndex];
 
 		// restore all
-		self.removeHighlight();
+		self.svg.selectAll(".date").each(function() {
+			var text = d3.select(this).select("text")
+				.style("font-size", null)
+				.style("font-weight", null);
+
+			var bbox = text.node().getBBox();
+			d3.select(this).select("rect")
+				.style("x", bbox.x - 3)
+				.style("y", bbox.y - 2)
+				.style("width", bbox.width + 6)
+				.style("height", bbox.height + 4)
+				.style("stroke", "none");
+
+			d3.select(this).select("circle")
+				.style("fill", "white");
+		});
 
 		// text
 		var text = d3.select(targetDateGroup).select("text")
@@ -96,22 +111,26 @@ var Timeline = {
 				.style("x", bbox.x - 3)
 				.style("y", bbox.y - 2)
 				.style("width", bbox.width + 6)
-				.style("height", bbox.height + 4);
+				.style("height", bbox.height + 4)
+				.style("stroke", null);
 
 			d3.select(this).select("circle")
 				.style("fill", null);
 		});
+
+		
 	},
 	select: function(timeIndex) {
 		var self = this;
 		var targetDateGroup = self.svg.selectAll(".date")[0][timeIndex];
 		var removeSelection = null;
 
-		if (d3.select(targetDateGroup).classed("selected")) {
+		if (d3.select(targetDateGroup).classed("selected")) { // de select
 			d3.select(targetDateGroup).classed("selected", false);
 			removeSelection = true;
 		}
-		else {
+		else { // select
+			self.removeHighlight();
 			d3.selectAll(".date").classed("selected", false);
 			d3.select(targetDateGroup).classed("selected", true);
 			removeSelection = false;
