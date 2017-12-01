@@ -20,7 +20,6 @@ var NodeLinkDiagram = {
 
 	// for determining if rerendering is needed
 	previousDate: null,
-	previousName: null,
 
 	init: function() {
 		var self = this;
@@ -66,14 +65,12 @@ var NodeLinkDiagram = {
 		var top = event.clientY + $(window).scrollTop();
 		var left = event.clientX + $(window).scrollLeft();
 
-		if (self.previousDate == date && self.previousName == name) {
+		if (self.previousDate == date) {
 			self.previousDate = date;
-			self.previousName = name;
 			return;
 		}
 		else {
 			self.previousDate = date;
-			self.previousName = name;
 		}
 		
 		FlowVis.updateFocus(className, timeIndex);
@@ -94,6 +91,7 @@ var NodeLinkDiagram = {
 		Timeline.removeHighlight();
 		MDSView.removeHighlightEgoNetwork();
 		MDSView.linkLayer.selectAll(".link").remove();
+		self.previousDate = null;
 
 		if (StateHandler.isScatterplotLocked()) {
 			var timeIndex = StateHandler.timeIndex;

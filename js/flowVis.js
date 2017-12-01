@@ -113,7 +113,6 @@ var FlowVis = {
 			.style("font-size", 40);
 	},
 	updateFocus: function(className, timeIndex) {
-		console.log('dsf')
 		var flowGroup = d3.select("#flow-view .flow." + className);
 		var totalNumberOfTimePeriods = Database.numberOfTimeSteps - 1;
 		var widthOfOneTimePeriod = (EgoNetworkView.canvasWidth - EgoNetworkView.margin.left - EgoNetworkView.margin.right) / totalNumberOfTimePeriods;
@@ -150,11 +149,18 @@ var FlowVis = {
 			.attr("width", secondEndX - secondStartX)
 			.attr("height", height)
 			.style("fill", "white")
-			.style("opacity", 0.8);
+			.style("opacity", 0.9);
 	},
 	removeFocus: function() {
+		var self = this;
 		d3.selectAll("#flow-view .flow-vis .start-focus").remove();
 		d3.selectAll("#flow-view .flow-vis .end-focus").remove();
+
+		if (StateHandler.egoClassName != null && StateHandler.timeIndex != null) {
+			var className = StateHandler.egoClassName.substring(1);
+			var timeIndex = StateHandler.timeIndex;
+			self.updateFocus(className, timeIndex);
+		}
 	},
 	firstLayer: {
 		createArea: function() {
