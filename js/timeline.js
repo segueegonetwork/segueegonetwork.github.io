@@ -89,7 +89,7 @@ var Timeline = {
 	},
 	removeHighlight: function() {
 		var self = this;
-		
+
 		self.svg.selectAll("text")
 			.style("font-size", null)
 			.style("font-weight", null);
@@ -97,6 +97,10 @@ var Timeline = {
 			.style("fill", "white");
 	},
 	select: function(timeIndex) {
-
-	}
+		var self = this;
+		var targetDateGroup = self.svg.selectAll(".date")[0][timeIndex];
+		
+		d3.select(targetDateGroup)
+			.classed("selected", true);
+	}	
 }

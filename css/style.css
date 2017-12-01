@@ -172,8 +172,10 @@ select, #remove, #hide-link, #adjust-time-series {
 
 #scatterplot .date rect, #flow-view .date rect {
 	fill: white;
+	stroke: none;
 }
 
 #scatterplot .date.selected rect, #flow-view .date.selected rect {
 	fill: #ffffcc;
+	stroke: gray;
 }

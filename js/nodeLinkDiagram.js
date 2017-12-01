@@ -49,8 +49,9 @@ var NodeLinkDiagram = {
 	onClickFlow: function() {
 		var self = NodeLinkDiagram;
 		var timeIndex = self.getCurrentTimeIndex(d3.mouse(this)[0]);
-		var date = Database.dateStringArray[timeIndex];
 
+		Timeline.select(timeIndex);
+		StateHandler.storeStateOfScatterplot(self.nodeClassNameList, self.linkClassNameList, self.egoClassName);
 	},
 	onMousemoveFlow: function() {
 		var self = NodeLinkDiagram;
