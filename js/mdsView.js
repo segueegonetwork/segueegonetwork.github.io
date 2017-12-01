@@ -102,29 +102,43 @@ var MDSView = {
 			.style("fill", "white")
 			.style("stroke", "#d3d3d3")
 			.on("click", self.clickDateLabel)
-			.on("mouseover", self.mouseoverDateLabel)
-			.on("mouseout", self.mouseoutDateLabel);
+			.on("mouseenter", self.mouseenterDateLabel)
+			.on("mouseleave", self.mouseleaveDateLabel);
 
 		// create text
 		var dateGroup = self.labelSVG.selectAll(".date")
 			.data(Database.dateStringArray)
 			.enter()
-			.append("text")
+			.append("g")
 			.attr("class", "date")
 			.attr("transform", function(d, i) {
 				return "translate(" + xScale(i) + ", 35)" + " rotate(-45)";
 			})
-			.style("fill", "gray")
-			.style("alignment-baseline", "middle")
-			.text(function(d) {
-				var parseDate = d3.time.format("%Y-%m").parse;
-				var formatTime = d3.time.format("%b %y");
-				var dateString = formatTime(parseDate(d));
-				return dateString;
-			})
 			.on("click", self.clickDateLabel)
-			.on("mouseover", self.mouseoverDateLabel)
-			.on("mouseout", self.mouseoutDateLabel);
+			.on("mouseenter", self.mouseenterDateLabel)
+			.on("mouseleave", self.mouseleaveDateLabel);
+
+		dateGroup.each(function(d) {
+			// text
+			var text = d3.select(this).append("text")
+				.style("fill", "gray")
+				.style("alignment-baseline", "middle")
+				.text(function(d) {
+					var parseDate = d3.time.format("%Y-%m").parse;
+					var formatTime = d3.time.format("%b %y");
+					var dateString = formatTime(parseDate(d));
+					return dateString;
+				});
+
+			// rect
+			var bbox = text.node().getBBox();
+			d3.select(this).insert("rect", "text")
+				.attr("x", bbox.x - 3)
+				.attr("y", bbox.y - 6)
+				.attr("width", bbox.width + 6)
+				.attr("height", bbox.height + 6)
+				.style("fill", "white");
+		});
 	},
 	clickDateLabel: function(d, i) {
 		var date = d;
@@ -136,7 +150,7 @@ var MDSView = {
 		StateHandler.addVisualLock("The entire network", timeString);
 		StateHandler.storeState("entire", timeIndex);
 	},
-	mouseoverDateLabel: function(d) {
+	mouseenterDateLabel: function(d) {
 		var self = MDSView;
 		var date = d;
 		var timeIndex = 0;
@@ -150,7 +164,7 @@ var MDSView = {
 		self.highlightTimeline(timeIndex);
 		self.updateLinks(date);
 	},
-	mouseoutDateLabel: function() {
+	mouseleaveDateLabel: function() {
 		StateHandler.restoreState();
 	},
 	highlightTimeline: function(timeIndex) {
