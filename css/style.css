@@ -179,3 +179,12 @@ select, #remove, #hide-link, #adjust-time-series {
 	fill: #ffffcc;
 	stroke: gray;
 }
+
+#scatterplot .date circle, #flow-view .date circle {
+	fill: white;
+	stroke: #d3d3d3;
+}
+
+#scatterplot .date.selected circle, #flow-view .date.selected circle {
+	fill: #ffffcc;
+}
