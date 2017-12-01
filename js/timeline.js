@@ -105,8 +105,18 @@ var Timeline = {
 	select: function(timeIndex) {
 		var self = this;
 		var targetDateGroup = self.svg.selectAll(".date")[0][timeIndex];
+		var removeSelection = null;
 
-		d3.selectAll(".date").classed("selected", false);
-		d3.select(targetDateGroup).classed("selected", true);
+		if (d3.select(targetDateGroup).classed("selected")) {
+			d3.select(targetDateGroup).classed("selected", false);
+			removeSelection = true;
+		}
+		else {
+			d3.selectAll(".date").classed("selected", false);
+			d3.select(targetDateGroup).classed("selected", true);
+			removeSelection = false;
+		}
+
+		return removeSelection;
 	}	
 }
