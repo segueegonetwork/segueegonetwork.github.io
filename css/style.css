@@ -169,3 +169,11 @@ select, #remove, #hide-link, #adjust-time-series {
 	width: 300px;
 	height: 300px;
 }
+
+#scatterplot .date rect, #flow-view .date rect {
+	fill: white;
+}
+
+#scatterplot .date.selected rect, #flow-view .date.selected rect {
+	fill: #ffffcc;
+}

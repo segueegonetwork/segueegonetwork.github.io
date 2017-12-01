@@ -38,20 +38,32 @@ var Timeline = {
 			.style("stroke", "#d3d3d3");
 
 		// create text
-		self.svg.selectAll(".date")
+		var dateGroup = self.svg.selectAll(".date")
 			.data(Database.dateStringArray)
 			.enter()
-			.append("text")
+			.append("g")
 			.attr("class", "date")
 			.attr("transform", function(d, i) {
 				return "translate(" + xScale(i) + ", 40)" + " rotate(-45)";
-			})
-			.style("alignment-baseline", "middle")
-			.style("fill", "gray")
-			.text(function(d) {
-				var parseDate = d3.time.format("%Y-%m").parse;
-				var formatTime = d3.time.format("%b %y");
-				return formatTime(parseDate(d)); 
 			});
+
+		dateGroup.each(function(d) {
+			var parseDate = d3.time.format("%Y-%m").parse;
+			var formatTime = d3.time.format("%b %y");
+			var dateString = formatTime(parseDate(d));
+			var text = d3.select(this).append("text")
+				.style("fill", "gray")
+				.style("alignment-baseline", "middle")
+				.text(dateString);
+
+			var bbox = text.node().getBBox();
+			d3.select(this).insert("rect", "text")
+				.attr("x", bbox.x - 3)
+				.attr("y", bbox.y - 2)
+				.attr("rx", 3)
+				.attr("ry", 3)
+				.attr("width", bbox.width + 6)
+				.attr("height", bbox.height + 4);
+		});
 	}
 }
