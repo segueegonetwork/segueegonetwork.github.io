@@ -18,6 +18,9 @@ var NodeLinkDiagram = {
 	linkClassNameList: [],
 	egoClassName: null,
 
+	// for determining if rerendering is needed
+	previousDate: null,
+
 	init: function() {
 		var self = this;
 
@@ -50,6 +53,14 @@ var NodeLinkDiagram = {
 		var top = event.pageY;
 		var left = event.pageX;
 
+		if (self.previousDate == date) {
+			self.previousDate = date;
+			return;
+		}
+		else {
+			self.previousDate = date;
+		}
+		
 		self.highlightTimeline(timeIndex);
 		self.computeNodeData(name, date);
 		self.computeLinkData(name, date);
