@@ -161,6 +161,7 @@ var MDSView = {
 				break;
 			}
 
+		self.removeHighlightEgoNetwork();
 		self.highlightTimeline(timeIndex);
 		self.updateLinks(date);
 	},
