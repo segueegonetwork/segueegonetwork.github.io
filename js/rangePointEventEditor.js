@@ -69,13 +69,13 @@ var RangePointEventEditor = {
 	    // draw the overall range
 	    brushGroup.append("text")
 			.attr("x", 0)
-			.attr("y", -3)
+			.attr("y", self.barHeight + 10)
 			.style("text-anchor", "middle")
 			.style("alignment-baseline", "baseline")
 			.text(Database.rangeDict[self.currentAttribute][0]);
 	  	brushGroup.append("text")
 			.attr("x", self.trackWidth)
-			.attr("y", -3)
+			.attr("y", self.barHeight + 10)
 			.style("text-anchor", "middle")
 			.style("alignment-baseline", "baseline")
 			.text(Database.rangeDict[self.currentAttribute][1]);
