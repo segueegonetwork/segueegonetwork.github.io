@@ -76,6 +76,7 @@ var NodeLinkDiagram = {
 			self.previousName = name;
 		}
 		
+		FlowVis.updateFocus(className, timeIndex);
 		self.computeNodeData(name, date);
 		self.computeLinkData(name, date);
 		self.drawNodeLinkDiagram(top, left);
@@ -87,6 +88,7 @@ var NodeLinkDiagram = {
 	onMouseleaveFlow: function() {
 		var self = NodeLinkDiagram;
 		
+		FlowVis.removeFocus();
 		self.hideNodeLinkDiagram();
 		MDSView.removeHighlightTimeline();
 		Timeline.removeHighlight();

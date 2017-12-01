@@ -112,6 +112,50 @@ var FlowVis = {
 			.style("text-anchor", "start")
 			.style("font-size", 40);
 	},
+	updateFocus: function(className, timeIndex) {
+		console.log('dsf')
+		var flowGroup = d3.select("#flow-view .flow." + className);
+		var totalNumberOfTimePeriods = Database.numberOfTimeSteps - 1;
+		var widthOfOneTimePeriod = (EgoNetworkView.canvasWidth - EgoNetworkView.margin.left - EgoNetworkView.margin.right) / totalNumberOfTimePeriods;
+
+		var height = flowGroup.select(".flow-vis").node().getBBox().height;
+		var firstStartX = 0;
+		var firstEndX = (timeIndex - 1) * widthOfOneTimePeriod + widthOfOneTimePeriod / 4 * 3;
+		var secondStartX = (timeIndex + 1) * widthOfOneTimePeriod - widthOfOneTimePeriod / 4 * 3;
+		var secondEndX = (totalNumberOfTimePeriods + 1) * widthOfOneTimePeriod;
+
+		if (flowGroup.select(".flow-vis").select(".start-focus").empty()) {
+			flowGroup.select(".flow-vis")
+				.append("rect")
+				.attr("class", "start-focus");
+		}
+
+		if (flowGroup.select(".flow-vis").select(".end-focus").empty()) {
+			flowGroup.select(".flow-vis")
+				.append("rect")
+				.attr("class", "end-focus");
+		}
+
+		flowGroup.select(".flow-vis .start-focus")
+			.attr("x", firstStartX)
+			.attr("y", - height / 2)
+			.attr("width", firstEndX - firstStartX)
+			.attr("height", height)
+			.style("fill", "white")
+			.style("opacity", 0.8);
+
+		flowGroup.select(".flow-vis .end-focus")
+			.attr("x", secondStartX)
+			.attr("y", - height / 2)
+			.attr("width", secondEndX - secondStartX)
+			.attr("height", height)
+			.style("fill", "white")
+			.style("opacity", 0.8);
+	},
+	removeFocus: function() {
+		d3.selectAll("#flow-view .flow-vis .start-focus").remove();
+		d3.selectAll("#flow-view .flow-vis .end-focus").remove();
+	},
 	firstLayer: {
 		createArea: function() {
 			var self = FlowVis;
