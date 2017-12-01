@@ -20,6 +20,7 @@ var NodeLinkDiagram = {
 
 	// for determining if rerendering is needed
 	previousDate: null,
+	previousName: null,
 
 	init: function() {
 		var self = this;
@@ -53,12 +54,14 @@ var NodeLinkDiagram = {
 		var top = event.pageY;
 		var left = event.pageX;
 
-		if (self.previousDate == date) {
+		if (self.previousDate == date && self.previousName == name) {
 			self.previousDate = date;
+			self.previousName = name;
 			return;
 		}
 		else {
 			self.previousDate = date;
+			self.previousName = name;
 		}
 		
 		self.highlightTimeline(timeIndex);
