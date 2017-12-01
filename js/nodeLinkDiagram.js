@@ -48,12 +48,8 @@ var NodeLinkDiagram = {
 	onClickFlow: function() {
 		var self = NodeLinkDiagram;
 		var timeIndex = self.getCurrentTimeIndex(d3.mouse(this)[0]);
-		var removeSelection = Timeline.select(timeIndex);
 
-		if (!removeSelection)
-			StateHandler.storeStateOfScatterplot(timeIndex, self.nodeClassNameList, self.linkClassNameList, self.egoClassName);
-		else 
-			StateHandler.removeStateOfScatterplot();
+		StateHandler.storeStateOfScatterplot(timeIndex, self.nodeClassNameList, self.linkClassNameList, self.egoClassName);
 	},
 	onMousemoveFlow: function() {
 		var self = NodeLinkDiagram;

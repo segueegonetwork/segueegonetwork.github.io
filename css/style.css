@@ -175,15 +175,7 @@ select, #remove, #hide-link, #adjust-time-series {
 	stroke: none;
 }
 
-#scatterplot .date.selected rect, #flow-view .date.selected rect {
-	stroke: gray;
-}
-
 #scatterplot .date circle, #flow-view .date circle {
 	fill: white;
 	stroke: #d3d3d3;
-}
-
-#scatterplot .date.selected circle, #flow-view .date.selected circle {
-	fill: #d3d3d3;
 }
