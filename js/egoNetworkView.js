@@ -352,6 +352,9 @@ var EgoNetworkView = {
 						.attr("transform", "translate(0, " + currentTranslateY + ")")
 				}
 			});
+
+		if (self.svgGroup.select(".flow").empty())
+			self.nextY_zoom = 0;
 	},
 	createDebugRect: function(eventsByName, rectColour) { // used by both flow and area
 		var self = this;
