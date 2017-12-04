@@ -63,8 +63,8 @@ var NodeLinkDiagram = {
 		var className = name.split(".").join("-");
 		var timeIndex = self.getCurrentTimeIndex(d3.mouse(this)[0]);
 		var date = Database.dateStringArray[timeIndex];
-		var top = event.clientY + $(window).scrollTop();
-		var left = event.clientX + $(window).scrollLeft();
+		var top = d3.event.clientY + $(window).scrollTop();
+		var left = d3.event.clientX + $(window).scrollLeft();
 
 		if (self.previousDate == date) {
 			self.previousDate = date;
