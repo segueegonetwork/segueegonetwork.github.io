@@ -233,10 +233,11 @@ var NodeLinkDiagram = {
 	},
 	moveView: function(top, left) {
 		var windowWidth = $(window).width();
+		var scrollLeft = $(window).scrollLeft();
 		var nodeLinkDiagramWidth = $("#node-link-diagram").width();
 
-		if (left + 20 + nodeLinkDiagramWidth >  windowWidth)
-		 	left = windowWidth - nodeLinkDiagramWidth - 30;
+		if (left + 20 + nodeLinkDiagramWidth >  windowWidth + scrollLeft)
+		 	left = windowWidth + scrollLeft - nodeLinkDiagramWidth - 30;
 
 		$("#node-link-diagram")
 			.css("display", "block")
