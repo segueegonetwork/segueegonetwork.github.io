@@ -287,8 +287,41 @@ var MDSView = {
 			}
 		}
 
-		function dblClickCircle(d) {
-			console.log(d)
+		function dblClickCircle(clickedCircleData) {
+			var clickedCircleEl = this;
+			var totalNumberOfCircle = Database.nameList.length;
+			var angleOfEachSlice = (Math.PI * 2) / (totalNumberOfCircle - 1);
+			var radius = self.width / 2;
+			var centreX = self.width / 2;
+			var centreY = self.height / 2;
+			var i = 0;
+
+			// clicked circle
+			clickedCircleData.x = centreX;
+			clickedCircleData.y = centreY;
+
+			d3.select(this)
+				.transition()
+				.attr("cx", centreX)
+				.attr("cy", centreY);
+
+			// other circles
+			self.nodeLayer.selectAll("circle").each(function(d) {
+				if (this != clickedCircleEl) {
+					var currentAngle = angleOfEachSlice * i;
+					var currentX = radius * Math.sin(currentAngle);
+					var currentY = radius * Math.cos(currentAngle);
+					d.x = currentX + centreX;
+					d.y = currentY + centreY;
+
+					d3.select(this)
+						.transition()
+						.attr("cx", currentX + centreX)
+						.attr("cy", currentY + centreY);
+
+					i++;
+				}
+			});
 		}
 
 		function mouseoverCircle(d) {
