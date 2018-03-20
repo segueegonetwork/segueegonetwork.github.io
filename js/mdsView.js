@@ -222,6 +222,9 @@ var MDSView = {
 	},
 	updateNodes: function(callback) {
 		var self = this;
+		var onClickOrDblClickCircle = clickcancel()
+			.on("click", clickCircle)
+			.on("dblclick", dblClickCircle);
 
 		// join
 		var circle = self.nodeLayer.selectAll("circle")
@@ -234,9 +237,9 @@ var MDSView = {
 			.style("stroke", "#d1d1d1")
 			.style("opacity", 0.7)
 			.style("cursor", "pointer")
-			.on("click", clickCircle)
 			.on("mouseover", mouseoverCircle)
-			.on("mouseout", mouseoutCircle);
+			.on("mouseout", mouseoutCircle)
+			.call(onClickOrDblClickCircle);
 
 		// update
 		var n = 0;
@@ -272,6 +275,7 @@ var MDSView = {
 
 		function clickCircle(d) {
 			var className = ".row." + d.label.split(".").join("-");
+
 			// append selected to row
 			if (!Table.svgGroup.select(className).classed("selected")) {
 				Table.svgGroup.select(className).classed("selected", true);
@@ -282,6 +286,11 @@ var MDSView = {
 				EgoNetworkView.removeFlow(d.label);
 			}
 		}
+
+		function dblClickCircle(d) {
+			console.log(d)
+		}
+
 		function mouseoverCircle(d) {
 			// * draw text
 

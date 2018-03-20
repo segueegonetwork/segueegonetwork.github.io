@@ -98,3 +98,38 @@ $(function() {
 
 	Database.getData();
 });
+
+function clickcancel() {
+  var event = d3.dispatch('click', 'dblclick');
+  function cc(selection) {
+      var down, tolerance = 5, last, wait = null, args;
+      // euclidean distance
+      function dist(a, b) {
+          return Math.sqrt(Math.pow(a[0] - b[0], 2), Math.pow(a[1] - b[1], 2));
+      }
+      selection.on('mousedown', function() {
+          down = d3.mouse(document.body);
+          last = +new Date();
+          args = arguments;
+      });
+      selection.on('mouseup', function() {
+          if (dist(down, d3.mouse(document.body)) > tolerance) {
+              return;
+          } else {
+              if (wait) {
+                  window.clearTimeout(wait);
+                  wait = null;
+                  event.dblclick.apply(this, args);
+              } else {
+                  wait = window.setTimeout((function() {
+                      return function() {
+                          event.click.apply(this, args);
+                          wait = null;
+                      };
+                  })(), 300);
+              }
+          }
+      });
+  };
+  return d3.rebind(cc, event, 'on');
+}
