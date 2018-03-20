@@ -22,6 +22,7 @@ var MDSView = {
 			.style("font-weight", "bold")
 			.text("Network View");
 
+		self.initClickOutside();
 		self.initButton();
 		self.initLabel();
 		self.initNodeAndLinkLayers();
@@ -66,6 +67,25 @@ var MDSView = {
 			MDSView.linkLayer.selectAll(".link").remove();
 			self.updateNodes(StateHandler.restoreState);
 		}
+	},
+	initClickOutside: function() {
+		var self = this;
+		var width = $("#scatterplot").width();
+		var height = $("#scatterplot").height();
+
+		d3.select("#scatterplot").insert("rect", ":first-child")
+			.attr("class", "background")
+			.attr("x", 0)
+			.attr("y", 0)
+			.attr("width", width)
+			.attr("height", height)
+			.style("fill", "white");
+
+		d3.select("#scatterplot .background")
+			.on("click", function() {
+				if (Database.events.length != 0)
+					self.update();
+			});
 	},
 	initLabel: function() {
 		var self = this;
@@ -291,10 +311,27 @@ var MDSView = {
 			var clickedCircleEl = this;
 			var totalNumberOfCircle = Database.nameList.length;
 			var angleOfEachSlice = (Math.PI * 2) / (totalNumberOfCircle - 1);
-			var radius = self.width / 2;
 			var centreX = self.width / 2;
 			var centreY = self.height / 2;
 			var i = 0;
+			var labelToDistanceDict = {};
+			var maxDistance = -999;
+
+			// create labelToDistanceDict
+			if (Database.events.length != 0) {
+				for (var theOtherLabel in ComparisonHandler.featureVectors) {
+					if (theOtherLabel != clickedCircleData.label) {
+						var clickedFeatureVector = ComparisonHandler.featureVectors[clickedCircleData.label];
+						var theOtherFeatureVector =  ComparisonHandler.featureVectors[theOtherLabel];
+						var distance = ComparisonHandler.computeVectorDistance(clickedFeatureVector, theOtherFeatureVector);
+
+						labelToDistanceDict[theOtherLabel] = distance;
+
+						if (distance > maxDistance)
+							maxDistance = distance;
+					}
+				}
+			}
 
 			// clicked circle
 			clickedCircleData.x = centreX;
@@ -306,11 +343,16 @@ var MDSView = {
 				.attr("cy", centreY);
 
 			// other circles
+			var radiusScale = d3.scale.linear()
+				.domain([ 0, maxDistance ])
+				.range([ 8, self.width / 2 ]);
+
 			self.nodeLayer.selectAll("circle").each(function(d) {
 				if (this != clickedCircleEl) {
+					var currentRadius = (Database.events.length != 0) ? radiusScale(labelToDistanceDict[d.label]) : self.width / 2;
 					var currentAngle = angleOfEachSlice * i;
-					var currentX = radius * Math.sin(currentAngle);
-					var currentY = radius * Math.cos(currentAngle);
+					var currentX = currentRadius * Math.sin(currentAngle);
+					var currentY = currentRadius * Math.cos(currentAngle);
 					d.x = currentX + centreX;
 					d.y = currentY + centreY;
 

@@ -3,7 +3,6 @@ var ComparisonHandler = {
 	scatterplotCoord: [],
 	scatterplotCoordForDisplay: [],
 
-
 	computeFeatureVectors: function() {
 		var self = this;
 
