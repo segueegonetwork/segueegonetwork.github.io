@@ -83,7 +83,10 @@ var MDSView = {
 
 		d3.select("#scatterplot .background")
 			.on("click", function() {
-				if (Database.events.length != 0)
+				var hasEvents = Database.events.length != 0;
+				var inRadialLayout = !self.nodeLayer.select("circle.clicked").empty();
+
+				if (hasEvents || inRadialLayout)
 					self.update();
 			});
 	},
@@ -246,6 +249,10 @@ var MDSView = {
 			.on("click", clickCircle)
 			.on("dblclick", dblClickCircle);
 
+		// remove all clicked class
+		self.nodeLayer.selectAll("circle")
+			.classed("clicked", false);
+
 		// join
 		var circle = self.nodeLayer.selectAll("circle")
 			.data(ComparisonHandler.scatterplotCoordForDisplay);
@@ -338,7 +345,9 @@ var MDSView = {
 			clickedCircleData.y = centreY;
 
 			d3.select(this)
+				.classed("clicked", true)
 				.transition()
+				.attr("r", 10)
 				.attr("cx", centreX)
 				.attr("cy", centreY);
 
@@ -357,7 +366,9 @@ var MDSView = {
 					d.y = currentY + centreY;
 
 					d3.select(this)
+						.classed("clicked", false)
 						.transition()
+						.attr("r", 5)
 						.attr("cx", currentX + centreX)
 						.attr("cy", currentY + centreY);
 
@@ -625,5 +636,7 @@ var MDSView = {
 		self.nodeLayer.selectAll("circle")
 			.attr("r", 5)
 			.style("opacity", 0.7);
+		self.nodeLayer.selectAll("circle.clicked")
+			.attr("r", 10)
 	}
 }
