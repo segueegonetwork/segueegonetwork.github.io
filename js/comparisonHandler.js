@@ -44,6 +44,42 @@ var ComparisonHandler = {
 
 			eventArrayForEachEgo[currentName] = currentEventArray;
 		}
+
+		self.eventArrayForEachEgo = eventArrayForEachEgo;
+	},
+	computeScatterplotCoord_edit: function() {
+		var self = this;
+		var labels = [];
+		var distances = [];
+
+		// create a list of labels
+		for (var label in self.eventArrayForEachEgo)
+			labels.push(label);
+
+		// create distances based on the label order
+		for (var i = 0; i < labels.length; i++) {
+			var currentLabel = labels[i];
+			var currentDistances = [];
+
+			for (var j = 0; j < labels.length; j++) {
+				var theOtherLabel = labels[j];
+				var currentEventArray = self.eventArrayForEachEgo[currentLabel];
+				var theOtherEventArray = self.eventArrayForEachEgo[theOtherLabel];
+				var distance = self.computeEditDistance(currentEventArray, theOtherEventArray);
+				currentDistances.push(distance);
+			}
+
+			distances.push(currentDistances);
+		}
+
+		console.log(distances)
+
+		// render coordinates
+	},
+	computeEditDistance: function(eventArray1, eventArray2) {
+
+
+		return -1;
 	},
 	computeFeatureVectors: function() {
 		var self = this;
