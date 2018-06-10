@@ -72,14 +72,103 @@ var ComparisonHandler = {
 			distances.push(currentDistances);
 		}
 
-		console.log(distances)
-
 		// render coordinates
+		self.scatterplotCoord = mds.classic(distances, labels);
+		var xScale = d3.scale.linear()
+			.domain(d3.extent(ComparisonHandler.scatterplotCoord, function(d) { return d.x; }))
+			.range([0, MDSView.width]);
+		var yScale = d3.scale.linear()
+			.domain(d3.extent(ComparisonHandler.scatterplotCoord, function(d) { return d.y; }))
+			.range([0, MDSView.height]);
+
+		self.scatterplotCoordForDisplay = [];
+		for (var i = 0; i < self.scatterplotCoord.length; i++) {
+			var x = self.scatterplotCoord[i].x;
+			var y = self.scatterplotCoord[i].y;
+			var label = self.scatterplotCoord[i].label;
+
+			self.scatterplotCoordForDisplay.push({
+				x: xScale(x),
+				y: yScale(y),
+				label: label 
+			});
+		}
 	},
 	computeEditDistance: function(eventArray1, eventArray2) {
+		var distanceMatrix = [];
+		var costDict = []; // [array1Index][array2Index]: cost
 
+		// create distance matrix
+		for (var i = 0; i < eventArray1.length + 1; i++) { // +1 for empty char
+			distanceMatrix.push([]);
 
-		return -1;
+			for (var j = 0; j < eventArray2.length + 1; j++)
+				distanceMatrix[i].push(-1);
+		}
+
+		// compute the cost of each pair fo events at the same time
+		for (var i = 0; i < eventArray1.length; i++) {
+			var currentArray1Char = eventArray1[i];
+
+			costDict.push([]);
+
+			for (var j = 0; j < eventArray2.length; j++) {
+				var currentArray2Char = eventArray2[j];
+				var currentCost = 0;
+
+				// if array 1 element not in array 2 increase cost
+				for (var k = 0; k < currentArray1Char.length; k++)
+					if (currentArray2Char.indexOf(currentArray1Char[k]) == -1)
+						currentCost++;
+
+				// if array 2 element not in array 1 increase cost
+				for (var k = 0; k < currentArray2Char.length; k++)
+					if (currentArray1Char.indexOf(currentArray2Char[k]) == -1)
+						currentCost++;
+
+				// store the cost
+				costDict[i].push(currentCost);
+			}
+		}
+
+		// init distance matrix
+		distanceMatrix[0][0] = 0;
+
+		for (var i = 1; i < eventArray2.length + 1; i++) { // first row
+			var costInLeftCell = distanceMatrix[0][i - 1];
+			var currentCost = eventArray2[i - 1].length;
+			distanceMatrix[0][i] = currentCost + costInLeftCell;
+		}
+
+		for (var i = 1; i < eventArray1.length + 1; i++) { // first column
+			var costInTopCell = distanceMatrix[i - 1][0];
+			var currentCost = eventArray1[i - 1].length;
+			distanceMatrix[i][0] = currentCost + costInTopCell;
+		}
+
+		// compute distance
+		for (var i = 1; i < eventArray1.length + 1; i++) {
+			for (var j = 1; j < eventArray2.length + 1; j++) {
+				var indexInArray1 = i - 1;
+				var indexInArray2 = j - 1;
+				var costOfTwoChar = costDict[indexInArray1][indexInArray2];
+				var isSameCharacter = costOfTwoChar == 0;
+				var currentCost = 0;
+
+				var topValue = distanceMatrix[i - 1][j];
+				var leftValue = distanceMatrix[i][j - 1];
+				var diagValue = distanceMatrix[i - 1][j - 1];
+
+				if (isSameCharacter)
+					currentCost = diagValue;
+				if (!isSameCharacter) 
+					currentCost = Math.min(topValue, Math.min(leftValue, diagValue)) + costOfTwoChar;
+
+				distanceMatrix[i][j] = currentCost;
+			}
+		}
+
+		return distanceMatrix[eventArray1.length][eventArray2.length];
 	},
 	computeFeatureVectors: function() {
 		var self = this;

@@ -242,8 +242,8 @@ var MDSView = {
 		else {
 			ComparisonHandler.computeEventArray(); // remove later
 			ComparisonHandler.computeScatterplotCoord_edit(); // remove later
-			ComparisonHandler.computeFeatureVectors();
-			ComparisonHandler.computeScatterplotCoord();
+			// ComparisonHandler.computeFeatureVectors();
+			// ComparisonHandler.computeScatterplotCoord();
 			self.updateNodes(StateHandler.restoreState);
 		}
 	},
