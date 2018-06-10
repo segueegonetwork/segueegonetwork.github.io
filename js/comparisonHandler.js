@@ -106,7 +106,7 @@ var ComparisonHandler = {
 				distanceMatrix[i].push(-1);
 		}
 
-		// compute the cost of each pair fo events at the same time
+		// compute the cost of each pair of events at the same time
 		for (var i = 0; i < eventArray1.length; i++) {
 			var currentArray1Char = eventArray1[i];
 
