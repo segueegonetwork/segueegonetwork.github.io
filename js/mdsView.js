@@ -240,6 +240,7 @@ var MDSView = {
 			self.restore();
 		}
 		else {
+			ComparisonHandler.computeEventArray(); // remove later
 			ComparisonHandler.computeFeatureVectors();
 			ComparisonHandler.computeScatterplotCoord();
 			self.updateNodes(StateHandler.restoreState);

@@ -1,8 +1,50 @@
 var ComparisonHandler = {
 	featureVectors: {},
+	eventArrayForEachEgo: {}, // { name, events }, events is an array of array
 	scatterplotCoord: [],
 	scatterplotCoordForDisplay: [],
 
+	computeEventArray: function() {
+		var self = this;
+		var eventArrayForEachEgo = {};
+		var allEvents = Object.keys(EventView.event2Index);
+		var event2IndexDict = {};
+		var eventsByNameAndStartDate = d3.nest()
+			.key(function(d) { return d.name; })
+			.key(function(d) { return d.startDate; })
+			.map(Database.events);
+
+		// create event2IndexDict
+		for (var i = 0; i < allEvents.length; i++)
+			event2IndexDict[allEvents[i]] = i;
+
+		// create the required array
+		for (var i = 0; i < Database.nameList.length; i++) {
+			var currentName = Database.nameList[i];
+			var currentEventArray = [];
+
+			if (currentName in eventsByNameAndStartDate) {
+				for (var j = 0; j < Database.dateStringArray.length; j++) {
+					var currentDate = Database.dateStringArray[j];
+					var eventArrayAtCurrentDate = [];
+
+					if (currentDate in eventsByNameAndStartDate[currentName]) {
+						var eventsAtCurrentDate = eventsByNameAndStartDate[currentName][currentDate];
+
+						for (var k = 0; k < eventsAtCurrentDate.length; k++) {
+							var currentEventName = eventsAtCurrentDate[k].eventName;
+							var currentEventIndex = event2IndexDict[currentEventName];
+							eventArrayAtCurrentDate.push(currentEventIndex);
+						}
+
+						currentEventArray.push(eventArrayAtCurrentDate);
+					}
+				}
+			}
+
+			eventArrayForEachEgo[currentName] = currentEventArray;
+		}
+	},
 	computeFeatureVectors: function() {
 		var self = this;
 
