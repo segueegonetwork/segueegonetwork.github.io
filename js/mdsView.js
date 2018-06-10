@@ -22,11 +22,32 @@ var MDSView = {
 			.style("font-weight", "bold")
 			.text("Network View");
 
+		self.initDistanceFunctionMenu();
 		self.initClickOutside();
 		self.initButton();
 		self.initLabel();
 		self.initNodeAndLinkLayers();
 		self.restore(); // create attribute clusters using tSNE
+	},
+	initDistanceFunctionMenu: function() {
+		var self = this;
+
+		$("#mds-view .distance-function-menu select").on('change', changeDistanceFunction);
+
+		function changeDistanceFunction() {
+			var selectedDistance = $("#mds-view .distance-function-menu select").val();
+
+			if (Database.events.length != 0 && selectedDistance == 'euclidean') {
+				ComparisonHandler.computeFeatureVectors();
+				ComparisonHandler.computeScatterplotCoord();
+				self.updateNodes(StateHandler.restoreState);
+			}
+			if (Database.events.length != 0 && selectedDistance == 'edit') {
+				ComparisonHandler.computeEventArray();
+				ComparisonHandler.computeScatterplotCoord_edit();
+				self.updateNodes(StateHandler.restoreState);
+			}
+		}
 	},
 	initNodeAndLinkLayers: function() {
 		var self = this;
@@ -233,17 +254,20 @@ var MDSView = {
 	},
 	update: function() {
 		var self = this;
+		var selectedDistance = $("#mds-view .distance-function-menu select").val();
 
 		MDSView.linkLayer.selectAll(".link").remove();
 
-		if (Database.events.length == 0) {
+		if (Database.events.length == 0)
 			self.restore();
+		if (Database.events.length != 0 && selectedDistance == 'euclidean') {
+			ComparisonHandler.computeFeatureVectors();
+			ComparisonHandler.computeScatterplotCoord();
+			self.updateNodes(StateHandler.restoreState);
 		}
-		else {
-			ComparisonHandler.computeEventArray(); // remove later
-			ComparisonHandler.computeScatterplotCoord_edit(); // remove later
-			// ComparisonHandler.computeFeatureVectors();
-			// ComparisonHandler.computeScatterplotCoord();
+		if (Database.events.length != 0 && selectedDistance == 'edit') {
+			ComparisonHandler.computeEventArray();
+			ComparisonHandler.computeScatterplotCoord_edit();
 			self.updateNodes(StateHandler.restoreState);
 		}
 	},

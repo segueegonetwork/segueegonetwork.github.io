@@ -5,6 +5,7 @@ body {
 
 #mds-view, #event-view, #table-view, #flow-view, #node-link-diagram {
 	font: 10px sans-serif;
+	position: relative;
 }
 
 ::-webkit-scrollbar {
@@ -178,4 +179,14 @@ select, #remove, #hide-link, #adjust-time-series {
 #scatterplot .date circle, #flow-view .date circle {
 	fill: white;
 	stroke: #d3d3d3;
+}
+
+#mds-view .distance-function-menu {
+	position: absolute;
+	right: 45px;
+	top: 3px;
+}
+
+#mds-view .distance-function-menu span {
+	font-weight: bold;
 }
