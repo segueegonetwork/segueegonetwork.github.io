@@ -86,8 +86,10 @@ var MDSView = {
 				var hasEvents = Database.events.length != 0;
 				var inRadialLayout = !self.nodeLayer.select("circle.clicked").empty();
 
-				if (hasEvents || inRadialLayout)
+				if (hasEvents || inRadialLayout) {
+					self.disableBackgroundPointerEvents();
 					self.update();
+				}
 			});
 	},
 	initLabel: function() {
@@ -293,8 +295,9 @@ var MDSView = {
 			.each("end", function() {
 				n--;
 				if (!n) {
-		           callback();
-		       }
+					self.restoreBackgroundPointerEvents();
+					callback();
+				}
 			});
 			
 		// exit
@@ -638,5 +641,13 @@ var MDSView = {
 			.style("opacity", 0.7);
 		self.nodeLayer.selectAll("circle.clicked")
 			.attr("r", 10)
+	},
+	restoreBackgroundPointerEvents: function() {
+		d3.select("#scatterplot .background")
+			.style("pointer-events", null);
+	},
+	disableBackgroundPointerEvents: function() {
+		d3.select("#scatterplot .background")
+			.style("pointer-events", "none");
 	}
 }
