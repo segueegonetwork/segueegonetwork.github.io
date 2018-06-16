@@ -37,16 +37,19 @@ var MDSView = {
 
 		function changeDistanceFunction() {
 			var selectedDistance = $("#mds-view .distance-function-menu select").val();
+			var isHeatmapSelected = d3.select("#scatterplot .heatmap-btn").classed("selected");
 
 			if (Database.events.length != 0 && selectedDistance == 'euclidean') {
 				ComparisonHandler.computeFeatureVectors();
 				ComparisonHandler.computeScatterplotCoord();
 				self.updateNodes(StateHandler.restoreState);
+				if (isHeatmapSelected) Heatmap.show();
 			}
 			if (Database.events.length != 0 && selectedDistance == 'edit') {
 				ComparisonHandler.computeEventArray();
 				ComparisonHandler.computeScatterplotCoord_edit();
 				self.updateNodes(StateHandler.restoreState);
+				if (isHeatmapSelected) Heatmap.show();
 			}
 		}
 	},
@@ -64,17 +67,17 @@ var MDSView = {
 
 		var heatmapButton = d3.select("#scatterplot")
 			.append("g")
+			.attr("class", "heatmap-btn")
 			.style("cursor", "pointer")
 			.on("click", clickHeatmapBtn);
 		heatmapButton.append("text")
-			.attr("class", "heatmap-btn")
 			.attr("x", -self.textMargin.left - 30)
 			.attr("y", -15)
 			.attr("transform", "translate(" + networkViewWidth + ", " + self.textMargin.top + ")")
 			.style("text-anchor", "end")
 			.text("Heatmap");
 		var bbox = heatmapButton.select("text").node().getBBox();
-		heatmapButton.insert("rect", ".heatmap-btn")
+		heatmapButton.insert("rect", ".heatmap-btn text")
 			.attr("x", bbox.x - 2)
 			.attr("y", bbox.y - 1)
 			.attr("width", bbox.width + 4)
@@ -85,7 +88,16 @@ var MDSView = {
 			.attr("fill", "#e5e5e5");
 
 		function clickHeatmapBtn() {
-			Heatmap.show();
+			var heatmapSelected = d3.select(this).classed('selected');
+
+			if (heatmapSelected) {
+				d3.select(this).classed('selected', false);
+				Heatmap.clear();
+			}
+			if (!heatmapSelected) {
+				d3.select(this).classed('selected', true);
+				Heatmap.show();
+			}
 		}
 	},
 	initJitterButton: function() {
@@ -115,9 +127,12 @@ var MDSView = {
 			.attr("fill", "#e5e5e5");
 
 		function clickJitterBtn() {
+			var isHeatmapSelected = d3.select("#scatterplot .heatmap-btn").classed("selected");
+
 			ComparisonHandler.jitterScatterplotCoordForDisplay();
 			MDSView.linkLayer.selectAll(".link").remove();
 			self.updateNodes(StateHandler.restoreState);
+			if (isHeatmapSelected) Heatmap.show();
 		}
 	},
 	initClickOutside: function() {
@@ -280,12 +295,15 @@ var MDSView = {
 	},
 	restore: function() {
 		var self = this;
+		var isHeatmapSelected = d3.select("#scatterplot .heatmap-btn").classed("selected");
 
 		ComparisonHandler.computeOriginalScatterplotCoord();
 		self.updateNodes(StateHandler.restoreState);
+		if (isHeatmapSelected) Heatmap.show();
 	},
 	update: function() {
 		var self = this;
+		var isHeatmapSelected = d3.select("#scatterplot .heatmap-btn").classed("selected");
 		var selectedDistance = $("#mds-view .distance-function-menu select").val();
 
 		MDSView.linkLayer.selectAll(".link").remove();
@@ -296,11 +314,13 @@ var MDSView = {
 			ComparisonHandler.computeFeatureVectors();
 			ComparisonHandler.computeScatterplotCoord();
 			self.updateNodes(StateHandler.restoreState);
+			if (isHeatmapSelected) Heatmap.show();
 		}
 		if (Database.events.length != 0 && selectedDistance == 'edit') {
 			ComparisonHandler.computeEventArray();
 			ComparisonHandler.computeScatterplotCoord_edit();
 			self.updateNodes(StateHandler.restoreState);
+			if (isHeatmapSelected) Heatmap.show();
 		}
 	},
 	updateNodes: function(callback) {
@@ -384,6 +404,8 @@ var MDSView = {
 			var i = 0;
 			var labelToDistanceDict = {};
 			var maxDistance = -999;
+			var isHeatmapSelected = d3.select("#scatterplot .heatmap-btn").classed("selected");
+			var allCoords = [];
 
 			// create labelToDistanceDict
 			if (Database.events.length != 0) {
@@ -433,9 +455,13 @@ var MDSView = {
 						.attr("cx", currentX + centreX)
 						.attr("cy", currentY + centreY);
 
+					allCoords.push({ x: currentX + centreX, y: currentY + centreY });
 					i++;
 				}
 			});
+
+			if (isHeatmapSelected)
+				Heatmap.show(allCoords);
 		}
 
 		function mouseoverCircle(d) {

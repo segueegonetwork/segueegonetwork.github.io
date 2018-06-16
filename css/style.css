@@ -181,6 +181,10 @@ select, #remove, #hide-link, #adjust-time-series {
 	stroke: #d3d3d3;
 }
 
+#scatterplot .heatmap-btn.selected rect {
+	fill: #ffffcc;
+}
+
 #mds-view .scatterplot-container {
 	position: absolute;
 	left: 0px;

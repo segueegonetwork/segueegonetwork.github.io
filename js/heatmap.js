@@ -5,37 +5,42 @@ var Heatmap = {
 		var self = this;
 
 		self.heatmapObject = h337.create({
-          gradient: { '0': 'white', '0.5': '#ff9999', '1': 'red' },
+          gradient: { '0': 'white', '1': '#ff9999' },
           container: document.getElementById('heatmap')
         });
 	},
-	show: function() {
+	show: function(inputCoords = null) {
 		var self = this;
-		var countAtEachCoord = self.findCountAtEachCoord();
+		var allCoords = (inputCoords === null) ? ComparisonHandler.scatterplotCoordForDisplay : inputCoords;
+		var countAtEachCoord = self.findCountAtEachCoord(allCoords);
 		var minCount = self.getMinCount(countAtEachCoord);
 		var maxCount = self.getMaxCount(countAtEachCoord);
-		var data = { min: minCount, max: maxCount, data: [] };
+		var data = { min: 1, max: maxCount, data: [] };
 
-		for (var coordString in countAtEachCoord) {
-			var splittedString = coordString.split(",");
-			var currentX = parseFloat(splittedString[0]) + MDSView.margin.left;
-			var currentY = parseFloat(splittedString[1]) + MDSView.margin.top;
-			var count = countAtEachCoord[coordString];
+		if (maxCount != 1) {
+			for (var coordString in countAtEachCoord) {
+				var splittedString = coordString.split(",");
+				var currentX = parseFloat(splittedString[0]) + MDSView.margin.left;
+				var currentY = parseFloat(splittedString[1]) + MDSView.margin.top;
+				var count = countAtEachCoord[coordString];
 
-			data.data.push({ x: currentX, y: currentY, value: count });
+				data.data.push({ x: currentX, y: currentY, value: count });
+			}
+
+			self.heatmapObject.setData(data);
 		}
 
-		self.heatmapObject.setData(data);
+		if (maxCount == 1)
+			self.clear();
 	},
 	clear: function() {
 		var self = this;
-		var data = { min: minCount, max: maxCount, data: [] };
-		
+		var data = { min: 0, max: 0, data: [] };
+
 		self.heatmapObject.setData(data);
 	},
-	findCountAtEachCoord: function() {
+	findCountAtEachCoord: function(allCoords) {
 		var countAtEachCoord = {};
-		var allCoords = ComparisonHandler.scatterplotCoordForDisplay;
 
 		// init
 		for (var i = 0; i < allCoords.length; i++) {
