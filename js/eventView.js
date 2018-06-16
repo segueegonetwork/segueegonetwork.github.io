@@ -48,6 +48,7 @@ var EventView = { // handling event editor
 
 		// right click
 		EventViewRightClickHandler.installRightClickBehaviour(d3.select("#event-editor"));
+		self.initMouseenterBehaviour();
 
 		// event panel
 		self.eventPanelSvg = d3.select("#event-editor")
@@ -154,6 +155,25 @@ var EventView = { // handling event editor
 			Table.updateEvents();
 			MDSView.update();
 			EgoNetworkView.updateDebugRect();
+		}
+	},
+	initMouseenterBehaviour: function() {
+		$('#event-view').on('mouseenter', mouseenterEventView);
+
+		function mouseenterEventView() {
+			let currentTagPos = $(this).offset();
+        	let currentTagWidth = $(this).width();
+
+			$('#tooltip')
+				.attr('data-tooltip', "Right-Click to Create Event Type")
+				.css('top', currentTagPos.top - 5)
+				.css('left', currentTagPos.left + currentTagWidth / 2)
+				.addClass('show');
+
+			setTimeout(function () {
+				$('#tooltip')
+					.removeClass('show');
+			}, 1500)
 		}
 	},
 	addEventTagToEventPanel: function(drawCircle) {
