@@ -131,7 +131,8 @@ var MDSView = {
 			.attr("y", 0)
 			.attr("width", width)
 			.attr("height", height)
-			.style("fill", "white");
+			.style("fill", "white")
+			.style("opacity", 0);
 
 		d3.select("#scatterplot .background")
 			.on("click", function() {
