@@ -56,6 +56,23 @@ var EgoNetworkView = {
 				.classed("selected", false);
 		});
 
+		$("#remove").mouseenter(function() {
+			let currentPos = $(this).offset();
+			let currentHeight = $(this).height();
+        	let currentWidth = $(this).width();
+
+			$('#tooltip')
+				.attr('data-tooltip', "Clear View")
+				.css('top', currentPos.top + currentHeight + 10)
+				.css('left', currentPos.left + currentWidth / 2 - 5)
+				.addClass('show')
+				.addClass('bottom');
+		});
+
+		$("#remove").mouseleave(function() {
+			$('#tooltip').removeClass('show');
+		});
+
 		$("#hide-link").click(function() {
 			if (!$(this).hasClass("selected")) {
 				$(this).addClass("selected");
@@ -69,6 +86,23 @@ var EgoNetworkView = {
 				d3.selectAll(".flow .link")
 					.style("opacity", null);
 			}
+		});
+
+		$("#hide-link").mouseenter(function() {
+			let currentPos = $(this).offset();
+			let currentHeight = $(this).height();
+        	let currentWidth = $(this).width();
+
+			$('#tooltip')
+				.attr('data-tooltip', "Hide Links")
+				.css('top', currentPos.top + currentHeight + 10)
+				.css('left', currentPos.left + currentWidth / 2 - 5)
+				.addClass('show')
+				.addClass('bottom');
+		});
+
+		$("#hide-link").mouseleave(function() {
+			$('#tooltip').removeClass('show');
 		});
 
 		$("#adjust-time-series").click(function() {

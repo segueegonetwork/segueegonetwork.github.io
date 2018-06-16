@@ -159,21 +159,25 @@ var EventView = { // handling event editor
 	},
 	initMouseenterBehaviour: function() {
 		$('#event-view').on('mouseenter', mouseenterEventView);
+		$('#mds-view').on('mouseenter', mouseleaveEventView);
+		$('#flow-view').on('mouseenter', mouseleaveEventView);
+		$('#table-view').on('mouseenter', mouseleaveEventView);
 
 		function mouseenterEventView() {
-			let currentTagPos = $(this).offset();
-        	let currentTagWidth = $(this).width();
+			let currentPos = $(this).offset();
+        	let currentWidth = $(this).width();
 
 			$('#tooltip')
 				.attr('data-tooltip', "Right-Click to Create Event Type")
-				.css('top', currentTagPos.top - 5)
-				.css('left', currentTagPos.left + currentTagWidth / 2)
-				.addClass('show');
+				.css('top', currentPos.top - 5)
+				.css('left', currentPos.left + currentWidth / 2)
+				.addClass('show')
+				.removeClass('bottom');
+		}
 
-			setTimeout(function () {
-				$('#tooltip')
-					.removeClass('show');
-			}, 1500)
+		function mouseleaveEventView() {
+			$('#tooltip')
+				.removeClass('show');
 		}
 	},
 	addEventTagToEventPanel: function(drawCircle) {

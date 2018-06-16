@@ -50,15 +50,19 @@
     padding-right: 10px;
 }
 
-#tooltip.left:before { /* appearance */
+#tooltip.bottom:before { /* appearance */
+    top: 100%;
+    bottom: auto;
+    left: 50%;
+
+    margin-top: -12px;
     margin-bottom: 0;
-    margin-left: -6px;
     border-top-color: transparent;
-    border-left-color: #000;
-    border-left-color: hsla(0, 0%, 20%, 0.9);
+    border-bottom-color: #000;
+    border-bottom-color: hsla(0, 0%, 20%, 0.9);
 }
 
-#tooltip:not(.left):before { /* appearance */
+#tooltip:not(.bottom):before { /* appearance */
     bottom: 100%;
     left: 50%;
     margin-left: -6px;
@@ -67,13 +71,25 @@
     border-top-color: hsla(0, 0%, 20%, 0.9);
 }
 
-#tooltip.left:after { /* appearance */
-	right: calc(100% + 6px);
-    bottom: 50%;
-    margin-bottom: -22px;
+#tooltip.bottom:after { /* appearance */
+	top: 100%;
+    bottom: auto;
+    left: 50%;
 }
 
-#tooltip:not(.left):after { /* appearance */
+#tooltip.bottom.show:after {
+    -webkit-transform: translate(-50%, 0%);
+    -moz-transform:    translate(-50%, 0%);
+    transform:         translate(-50%, 0%);
+}
+
+#tooltip.bottom.show:before {
+    -webkit-transform: translate(0%, 0%);
+    -moz-transform:    translate(0%, 0%);
+    transform:         translate(0%, 0%);
+}
+
+#tooltip:not(.bottom):after { /* appearance */
     bottom: 100%;
     right: 50%;
 }
@@ -90,7 +106,7 @@
     transform:         translateY(-5px); 
 }
 
-#tooltip.show:not(.left):after {
+#tooltip.show:not(.bottom):after {
 	-webkit-transform: translate(50%, -5px);
     -moz-transform: translate(50%, -5px);
     transform: translate(50%, -5px); 
