@@ -190,3 +190,9 @@ select, #remove, #hide-link, #adjust-time-series {
 #mds-view .distance-function-menu span {
 	font-weight: bold;
 }
+
+#mds-view .heatmap {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+}

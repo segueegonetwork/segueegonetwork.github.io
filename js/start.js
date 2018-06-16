@@ -41,7 +41,9 @@ $(function() {
 	$("#mds-view")
 		.css("width", full)
 		.css("height", full);
-
+	$("#mds-view .heatmap")
+		.css("width", full)
+		.css("height", full);
 	d3.select("#mds-view #scatterplot")
 		.attr("width", full)
 		.attr("height", full);
