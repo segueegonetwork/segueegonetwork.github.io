@@ -41,7 +41,10 @@ $(function() {
 	$("#mds-view")
 		.css("width", full)
 		.css("height", full);
-	$("#mds-view .heatmap")
+	$("#mds-view #heatmap")
+		.css("width", full)
+		.css("height", full);
+	$("#mds-view .scatterplot-container")
 		.css("width", full)
 		.css("height", full);
 	d3.select("#mds-view #scatterplot")

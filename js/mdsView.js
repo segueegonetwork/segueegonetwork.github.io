@@ -85,7 +85,7 @@ var MDSView = {
 			.attr("fill", "#e5e5e5");
 
 		function clickHeatmapBtn() {
-			
+			Heatmap.show();
 		}
 	},
 	initJitterButton: function() {

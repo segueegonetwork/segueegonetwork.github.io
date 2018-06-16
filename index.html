@@ -13,12 +13,15 @@
 	<script src="vender/mds.js"></script>
 	<script src="vender/tsne.js"></script>
 	<script src="vender/d3-context-menu.js"></script>
+	<script src="vender/heatmap.min.js"></script>
 </head>
 
 <body>
 	<div id="left-content">
 
 		<div id="mds-view" class="noselection ui-view ui-corner-all">
+			<div id="heatmap"></div>
+			<div class="scatterplot-container"><svg id="scatterplot"></svg></div>
 			<div class="distance-function-menu">
 				<span>Distance Function: </span>
 				<select>
@@ -26,9 +29,6 @@
 					<option value="edit">Edit Distance</option>
 				</select>
 			</div>
-
-			<div class="heatmap"></div>
-			<svg id="scatterplot"></svg>
 		</div>
 
 	</div>

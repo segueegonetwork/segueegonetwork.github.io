@@ -82,6 +82,7 @@ var Database = {
 			EventView.init();
 			MDSView.init();
 			NodeLinkDiagram.init();
+			Heatmap.init();
 
 			// process the time series later to shorten loading time
 			self.processTimeSeriesRegressionData();

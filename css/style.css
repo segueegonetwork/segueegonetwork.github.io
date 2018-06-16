@@ -181,6 +181,12 @@ select, #remove, #hide-link, #adjust-time-series {
 	stroke: #d3d3d3;
 }
 
+#mds-view .scatterplot-container {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+}
+
 #mds-view .distance-function-menu {
 	position: absolute;
 	right: 90px;
@@ -191,7 +197,7 @@ select, #remove, #hide-link, #adjust-time-series {
 	font-weight: bold;
 }
 
-#mds-view .heatmap {
+#mds-view #heatmap {
 	position: absolute;
 	left: 0px;
 	top: 0px;
