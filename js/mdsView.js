@@ -24,7 +24,8 @@ var MDSView = {
 
 		self.initDistanceFunctionMenu();
 		self.initClickOutside();
-		self.initButton();
+		self.initJitterButton();
+		self.initHeatmapButton();
 		self.initLabel();
 		self.initNodeAndLinkLayers();
 		self.restore(); // create attribute clusters using tSNE
@@ -57,7 +58,37 @@ var MDSView = {
 		self.nodeLayer = d3.select("#scatterplot").append("g")
 			.attr("transform", "translate(" + self.margin.left + "," + self.margin.top + ")");
 	},
-	initButton: function() {
+	initHeatmapButton: function() {
+		var self = this;
+		var networkViewWidth = $("#scatterplot").width();
+
+		var heatmapButton = d3.select("#scatterplot")
+			.append("g")
+			.style("cursor", "pointer")
+			.on("click", clickHeatmapBtn);
+		heatmapButton.append("text")
+			.attr("class", "heatmap-btn")
+			.attr("x", -self.textMargin.left - 30)
+			.attr("y", -15)
+			.attr("transform", "translate(" + networkViewWidth + ", " + self.textMargin.top + ")")
+			.style("text-anchor", "end")
+			.text("Heatmap");
+		var bbox = heatmapButton.select("text").node().getBBox();
+		heatmapButton.insert("rect", ".heatmap-btn")
+			.attr("x", bbox.x - 2)
+			.attr("y", bbox.y - 1)
+			.attr("width", bbox.width + 4)
+			.attr("height", bbox.height + 2)
+			.attr("transform", "translate(" + networkViewWidth + ", " + self.textMargin.top + ")")
+			.attr("rx", 3)
+			.attr("ry", 3)
+			.attr("fill", "#e5e5e5");
+
+		function clickHeatmapBtn() {
+			
+		}
+	},
+	initJitterButton: function() {
 		var self = this;
 		var networkViewWidth = $("#scatterplot").width();
 
